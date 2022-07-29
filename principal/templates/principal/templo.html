@@ -1,0 +1,486 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>QUICK MATCH</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assetscubo/img/logo2.png' %}" rel="icon">
+  <link href="{% static 'assetscubo/img/logo.jpeg' %}" rel="logo">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assetstemplo/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assetstemplo/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assetstemplo/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assetstemplo/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assetstemplo/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assetstemplo/vendor/glightbox/css/glightbox.min.css' %}"rel="stylesheet">
+  <link href="{% static 'assetstemplo/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assetstemplo/css/style.css' %}" rel="stylesheet">
+
+ 
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-phone d-flex align-items-center"><span>+57 3105826122</span></i>
+        <i class="bi bi-clock d-flex align-items-center ms-4"><span> Lun-Domin: 8AM - 23PM</span></i>
+      </div>
+
+      <div class="languages d-none d-md-flex align-items-center">
+        <ul>
+          <li>En</li>
+          <li><a href="#">De</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  {% for cancha in canchas %}  <!--sintaxis -->
+  <header id="header" class="fixed-top d-flex align-items-cente">
+    
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+      <h1 class="logo me-auto me-lg-0"><a href="{% url 'principal' %}">{{cancha.nombre}}</a></h1>
+  
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>
+          <li><a class="nav-link scrollto" href="#about">Cancha</a></li>
+       <!--     <li><a class="nav-link scrollto" href="#menu">Servicios</a></li> -->
+      <!--       <li><a class="nav-link scrollto" href="#events">Fotos</a></li>-->
+          
+          <li><a class="nav-link scrollto" href="#contact">Ubicación</a></li>
+          
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+              <a href="{% url 'logout' %}" class="nav-link smoothScroll">cerrar</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+              <a href="{% url 'registro' %}" class="nav-link smoothScroll">registrarse</a>
+          </li>
+          <li class="nav-item">
+              <a href="{% url 'login1' %}" class="nav-link smoothScroll">login</a>
+          </li>
+          {% endif %}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+        
+      </nav><!-- .navbar -->
+      <a href="https://acortar.link/6VKMtC" class="book-a-table-btn scrollto d-none d-lg-flex">WhatsApp</a>
+      <a href="{% url 'reserva' %}" class="book-a-table-btn scrollto d-none d-lg-flex">Cotiza Tu Reserva</a>
+      <a href="tel:+573135008240" class="book-a-table-btn scrollto d-none d-lg-flex">Llamar Ahora</a>
+
+      <ul class="social-icon ml-lg-3">
+        <li><a href="https://www.facebook.com/davidalexander.hernandezcampo/?viewas=100000686899395&show_switched_toast=0&show_invite_to_follow=0&show_switched_tooltip=0&show_podcast_settings=0&show_community_transition=0&show_community_review_changes=0&show_follower_visibility_disclosure=0" class="fa fa-facebook"></a></li>
+        <li><a href="https://acortar.link/6VKMtC" class="fa fa-whatsapp"></a></li>
+        <li><a href="#" class="fa fa-instagram"></a></li>
+    </ul>
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1>Bienvenido <span>DISFRUTA DE UNA  PASION QUE NOS HACE VIVIR </span></h1>
+          <h2>Entregando un exelente servicio!</h2>
+
+          <div class="btns">
+           
+          </div>
+        </div>
+        <div class="col-lg-4 d-flex align-items-center justify-content-center position-relative" data-aos="zoom-in" data-aos-delay="200">
+          <a href="https://www.youtube.com/watch?v=bToXRRm8T-I" class="glightbox play-btn"></a>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="100">
+            <div class="about-img">
+              <img src="{{cancha.image.url}}" alt="">
+             
+            </div>
+            <span<strong>Precio:</strong><br>{{ cancha.precio }}</span> <hr>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+            <span><strong>Usuario:</strong><br> 
+            <a href="{% url 'perfil' cancha.user.username %}"> <h6> {{ cancha.user.username }}</h6></a> <hr>
+            <span><strong>Descripcion:</strong><br> {{ cancha.descripcion}}</span> <br/> <hr>
+            <span><strong>Telefono:</strong><br> {{ cancha.telefono}}</span> <br/> <hr>
+            <span><strong>Correo Electronico:</strong><br> {{ cancha.correo_electronico}}</span> <br/> <hr>
+            <li class="nav-item">
+              <a href="{% url 'modificar_cancha' cancha.pk %}" class="nav-link smoothScroll">Modificar cancha</a>
+          </li>
+            <!--<p class="fst-italic"> 
+            
+             {{cancha.descripcion}}
+
+             
+            </p>-->
+            
+          </div>
+        </div>
+      </div>
+  
+    <!-- ======= Menu Servivios ======= -->
+    <!--<section id="menu" class="menu section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Servicios</h2>
+          <p>Nuestros servicios</p>
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="menu-flters">
+              <li data-filter="*" class="filter-active">All</li>
+              <li data-filter=".filter-starters">Starters</li>
+              <li data-filter=".filter-salads">Salads</li>
+              <li data-filter=".filter-specialty">Specialty</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+
+          <div class="col-lg-6 menu-item filter-starters">
+            <img src="{% static 'assetstemplol/img/menu/lobster-bisque.jpg' %}" class="menu-img" alt="">
+            <div class="menu-content">
+              <a href="#">Lobster Bisque</a><span>$5.95</span>
+            </div>
+            <div class="menu-ingredients">
+              Lorem, deren, trataro, filede, nerada
+            </div>
+          </div>
+
+          <div class="col-lg-6 menu-item filter-specialty">
+            <img src="{% static 'assetstemplo/img/menu/bread-barrel.jpg' %}" class="menu-img" alt="">
+            <div class="menu-content">
+              <a href="#">Bread Barrel</a><span>$6.95</span>
+            </div>
+            <div class="menu-ingredients">
+              Lorem, deren, trataro, filede, nerada
+            </div>
+          </div>
+
+          <div class="col-lg-6 menu-item filter-starters">
+            <img src="{% static 'assetstemplo/img/menu/cake.jpg' %}" class="menu-img" alt="">
+            <div class="menu-content">
+              <a href="#">Crab Cake</a><span>$7.95</span>
+            </div>
+            <div class="menu-ingredients">
+              A delicate crab cake served on a toasted roll with lettuce and tartar sauce
+            </div>
+          </div>
+
+          <div class="col-lg-6 menu-item filter-salads">
+            <img src="{% static 'assetstemplo/img/menu/caesar.jpg' %}" class="menu-img" alt="">
+            <div class="menu-content">
+              <a href="#">Caesar Selections</a><span>$8.95</span>
+            </div>
+            <div class="menu-ingredients">
+              Lorem, deren, trataro, filede, nerada
+            </div>
+          </div>
+
+          <div class="col-lg-6 menu-item filter-specialty">
+            <img src="{% static 'assetstemplo/img/menu/tuscan-grilled.jpg' %}" class="menu-img" alt="">
+            <div class="menu-content">
+              <a href="#">Tuscan Grilled</a><span>$9.95</span>
+            </div>
+            <div class="menu-ingredients">
+              Grilled chicken with provolone, artichoke hearts, and roasted red pesto
+            </div>
+          </div>
+
+          <div class="col-lg-6 menu-item filter-starters">
+            <img src="{% static 'assetstemplo/img/menu/mozzarella.jpg' %}" class="menu-img" alt="">
+            <div class="menu-content">
+              <a href="#">Mozzarella Stick</a><span>$4.95</span>
+            </div>
+            <div class="menu-ingredients">
+              Lorem, deren, trataro, filede, nerada
+            </div>
+          </div>
+
+          <div class="col-lg-6 menu-item filter-salads">
+            <img src="{% static 'assetstemplo/img/menu/greek-salad.jpg' %}" class="menu-img" alt="">
+            <div class="menu-content">
+              <a href="#">Greek Salad</a><span>$9.95</span>
+            </div>
+            <div class="menu-ingredients">
+              Fresh spinach, crisp romaine, tomatoes, and Greek olives
+            </div>
+          </div>
+
+          <div class="col-lg-6 menu-item filter-salads">
+            <img src="{% static 'assetstemplo/img/menu/spinach-salad.jpg' %}" class="menu-img" alt="">
+            <div class="menu-content">
+              <a href="#">Spinach Salad</a><span>$9.95</span>
+            </div>
+            <div class="menu-ingredients">
+              Fresh spinach with mushrooms, hard boiled egg, and warm bacon vinaigrette
+            </div>
+          </div>
+
+          <div class="col-lg-6 menu-item filter-specialty">
+            <img src="{% static 'assetstemplo/img/menu/lobster-roll.jpg' %}" class="menu-img" alt="">
+            <div class="menu-content">
+              <a href="#">Lobster Roll</a><span>$12.95</span>
+            </div>
+            <div class="menu-ingredients">
+              Plump lobster meat, mayo and crisp lettuce on a toasted bulky roll
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>--><!-- End Menu Section -->
+
+    
+
+      </div>
+    </section><!-- End Specials Section -->
+
+    <!-- ======= Events Section ======= -->
+    <section id="events" class="events">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Fotos</h2>
+          <p>Observa nuestras imagenes</p>
+        </div>
+
+        <div class="events-slider swiper" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="row event-item">
+                <div class="col-lg-6">
+                  <img src="{% static 'assetstemplo/img/tem1.jpeg' %}" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0 content">
+                  
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="row event-item">
+                <div class="col-lg-6">
+                  <img src="{% static 'assetstemplo/img/tem2.jpeg' %}" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0 content">
+                  
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="row event-item">
+                <div class="col-lg-6">
+                  <img src="{% static 'assetstemplo/img/tem3.jpeg' %}" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0 content">
+                 
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Events Section -->
+ <!-- ======= Gallery Section ======= -->
+                                 <!--permita la subida de archivos binarios -->
+ <!--<form class="mb-5" method="POST" enctype="multipart/form-data" > 
+  
+<br> 
+<label>
+  Sube tu experiencia
+</label>
+<input type="file" name="txtImage" id="txtImage">
+<br>
+<input type="submit" value="Guardar">
+ </form>-->
+<!--  <section id="gallery" class="gallery">
+
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>Galeria</h2>
+
+      <p>sube tu experiencia </p>
+    </div>
+  </div>
+
+  <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+    <div class="row g-0">
+    
+      <div class="col-lg-3 col-md-4">
+        {% for galeria in galeria %}
+        <div class="gallery-item">
+          <a href="{{ galeria.image.url }}" class="gallery-lightbox" data-gall="gallery-item">
+            <img src="{{ galeria.image.url }}" alt="" class="img-fluid">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <div class="col-lg-3 col-md-4">
+        {% for galeria in galeria %}
+        <div class="gallery-item">
+          
+          <a href="{{ galeria.image.url }}" class="gallery-lightbox" data-gall="gallery-item">
+            <img src="{{ galeria.image.url }}" alt="" class="img-fluid">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        {% for galeria in galeria %}
+        <div class="gallery-item">
+          <a href="{{ galeria.image.url }}" class="gallery-lightbox" data-gall="gallery-item">
+            <img src="{{ galeria.image.url }}"alt="" class="img-fluid">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        {% for galeria in galeria %}
+        <div class="gallery-item">
+          <a href="{{ galeria.image.url }}" class="gallery-lightbox" data-gall="gallery-item">
+            <img src="{{ galeria.image.url }}" alt="" class="img-fluid">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        {% for galeria in galeria %}
+        <div class="gallery-item">
+          <a href="{{ galeria.image.url }}" class="gallery-lightbox" data-gall="gallery-item">
+            <img src="{{ galeria.image.url }}" alt="" class="img-fluid">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        {% for galeria in galeria %}
+        <div class="gallery-item">
+          <a href="{{ galeria.image.url }}" class="gallery-lightbox" data-gall="gallery-item">
+            <img src="{{ galeria.image.url }}" alt="" class="img-fluid">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        {% for galeria in galeria %}
+        <div class="gallery-item">
+          <a href="{{ galeria.image.url }}" class="gallery-lightbox" data-gall="gallery-item">
+            <img src="{{ galeria.image.url }}" alt="" class="img-fluid">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        {% for galeria in galeria %}
+        <div class="gallery-item">
+          <a href="{{ galeria.image.url }}" class="gallery-lightbox" data-gall="gallery-item">
+            <img src="{{ galeria.image.url }}" alt="" class="img-fluid">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+    
+  </div>
+</section> End Gallery Section 
+    
+      </div>
+    </section> End Book A Table Section -->
+   
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Ubicacion</h2>
+          <p>Ubiquenos</p>
+        </div>
+      </div>
+
+      <div data-aos="fade-up">
+        <iframe style="border:0; width: 100%; height: 350px;"  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22679.91307859827!2d-76.61377827069441!3d2.444221291728884!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e30039fadbf0461%3A0x718f728a9b973314!2sCanchas%20Sint%C3%A9ticas%20PROVITEC!5e0!3m2!1ses-419!2sco!4v1657391705624!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Contact Section -->
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Quick Match</span></strong>. Diseño exclusivo de el capo
+      </div>
+      <div class="credits">
+  
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assetstemplo/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assetstemplo/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assetstemplo/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assetstemplo/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assetstemplo/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assetstemplo/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assetstemplo/js/main.js' %}"></script>
+
+</body>
+{% endfor %}
+</html>

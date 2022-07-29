@@ -1,0 +1,96 @@
+define(function (require) {
+
+    var Marionette = require('marionette');
+
+    return Marionette.Object.extend({
+
+        _elementPositions: {},
+
+        initialize: function () {
+            this._listenMessages();
+
+            jQuery(document).on('show.bs.modal', _.bind(this._beforeShowModal, this));
+            jQuery(document).on('shown.bs.modal', _.bind(this._updateModalPosition, this));
+            jQuery(document).on('hidden.bs.modal', _.bind(this._removeModalElement, this));
+            jQuery(document).on('open:countrydropdown', _.bind(this._updateFlagContainerPosition, this));
+        },
+
+        _initListenerId: function (element) {
+            if (!element.listenerId) {
+                var listenerId = Math.random();
+
+                this._elementPositions[listenerId] = jQuery(element);
+
+                element.listenerId = listenerId;
+            }
+
+            return element.listenerId;
+        },
+
+        removeListener: function (id) {
+            if (id && this._elementPositions[id]) {
+                delete this._elementPositions[id];
+            }
+        },
+
+        _beforeShowModal: function (event) {
+            var listenerId = this._initListenerId(event.target);
+
+            window.parent.postMessage({
+                'event': 'modalShow',
+                'listener_id': listenerId
+            }, '*');
+        },
+
+        updatePosition: function (element) {
+            var listenerId = this._initListenerId(element);
+
+            window.parent.postMessage({
+                'event': 'modalShown',
+                'listener_id': listenerId
+            }, '*');
+        },
+        
+        _updateModalPosition: function (event) {
+            this.updatePosition(event.target);
+        },
+
+        _updateFlagContainerPosition: function (event) {
+            this.updatePosition($('.iti--container')[0]);
+        },
+
+        _removeModalElement: function (event) {
+            var listenerId = this._initListenerId(event.target);
+
+            window.parent.postMessage({
+                'event': 'modalHidden',
+                'listener_id': listenerId
+            }, '*');
+
+            event.target.listenerId = null;
+
+            this.removeListener(listenerId);
+        },
+
+        _listenMessages: function () {
+            if (window.parent && window.parent !== window) {
+                jQuery(window).bind('message', _.bind(this._handleWindowMessage, this));
+            }
+        },
+
+        _handleWindowMessage: function (event) {
+            var data = event.originalEvent.data;
+
+            if (_.isObject(data) && data.update_modal_position) {
+                if (this._elementPositions[data.listener_id]) {
+                    this._elementPositions[data.listener_id].css({
+                        'top': data.top,
+                        // 'margin-top': '5%'
+                    });
+                }
+            }
+        }
+
+    });
+
+});

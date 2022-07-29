@@ -1,0 +1,46 @@
+
+
+{% load static %}
+{# cargamos la librería #}
+ {% load bootstrap4  %}
+    {# CSS bootstrap #}
+    {% bootstrap_css  %}
+
+    {# widget tweaks #}
+    {% load widget_tweaks  %}
+    
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card">
+            
+            <div class="card-body12">
+                <h2>Registrate</h2>
+                <hr>
+                <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+                {{ form | crispy }}
+                {% csrf_token %}
+                <div class="d-felx justify-content-end">
+                    <button type="submit" class="btn btn-primary">REGISTRARSE EN QUICK MACHT<button>
+                     
+                        <a href="{% url 'login1' %}"> ¿ya tienes cuenta?  inicia sesión</a>
+            </div>
+        </form>       
+        {{mensaje}}
+    </div>                  
+</div>
+</div>
+</div>   
+
+
+
+<!--<form method="post" enctype="multipart/form-data" action="{% url 'register' %}">
+
+    {# pasamos el 'csrf_token' de seguridad para poder crear un nuevo registro #}
+    {% csrf_token %}
+    {{ form | crispy }}-->
+
+    <!--{{ form.as_p}}-->
+
+   
+<!--</form>  --> 

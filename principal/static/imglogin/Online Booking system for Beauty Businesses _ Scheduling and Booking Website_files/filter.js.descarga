@@ -1,0 +1,98 @@
+$(document).ready(function () { //doc ready
+
+    (function ($) {
+        $.fn.filterPlugin = function () {
+
+            var ui_elements = {
+                list_trigger: "#sb_list_trigger",
+                filter_list: ".sb_filter_list",
+                filter_item: ".sb_filter_item",
+                filter_area: "#sb_filter_container",
+                filter_changed_item: ".sb_changed_filter_item",
+                filter_remove_item: ".sb_remove_item",
+                filter_input: ".sb_filter_item input"
+            };
+
+            var functions = {
+                ui: ui_elements,
+                init: function (options) {
+
+                    var instance = this;
+
+                    $(document).on("click", instance.ui.filter_remove_item, function () {
+                        var for_trigger = $(this).closest(instance.ui.filter_changed_item).data("added");
+                        $("label[for='" + for_trigger + "']").trigger("click");
+                    });
+
+                    $(document).on("focus", instance.ui.list_trigger, function () {
+                        $(instance.ui.filter_list).addClass("active");
+                    });
+
+                    instance.live_search(instance.ui.list_trigger, instance.ui.filter_item);
+
+                    $(document).on("click", function (e) {
+
+                        var positive_area = $(e.target).closest(instance.ui.filter_area).length;
+                        if (!positive_area) {
+                            $(instance.ui.filter_list).removeClass("active");
+                        }
+                    });
+
+                    instance.eventsListener();
+
+                },
+                eventsListener: function () {
+
+                    var instance = this;
+                    var messagesChannel = Backbone.Wreqr.radio.channel('membershipFilter');
+                    messagesChannel.vent.on('refresh', function (options) {
+                        instance.set_checked();
+                    });
+                },
+                set_checked: function () {
+                    var instance = this;
+
+                    var input = instance.ui.filter_input;
+
+                    $(instance.ui.filter_changed_item, $(instance.ui.filter_area)).remove();
+                    $(input + ":checked").each(function () {
+
+                        var text = $("[data-label='" + $(this).attr("id") + "']").find("label").html();
+                        var id = $(this).attr("id");
+                        var markup = "<span class='sb_changed_filter_item'" + "data-added='" + id + "'>" + text + "<span class='sb_remove_item'>x</span></span>";
+
+                        $(instance.ui.filter_area).append(markup);
+
+                    });
+
+                },
+                live_search: function (search_trigger, items) {
+
+                    var trigger = search_trigger;
+                    var items_arr = items;
+
+                    $(document).on("keyup", trigger, function () {
+                        var input_val = $(this).val();
+                        $(items_arr).each(function () {
+                            if ($(this).text().search(new RegExp(input_val, "i")) < 0) {
+                                $(this).css({"display": "none"});
+                            }
+                            else {
+                                $(this).css({"display": "block"});
+                            }
+                        });
+                    });
+
+
+                }
+            };
+
+            functions.init();
+
+        }
+
+    })(jQuery);
+
+    $(".sb_filter_list").filterPlugin();
+
+});

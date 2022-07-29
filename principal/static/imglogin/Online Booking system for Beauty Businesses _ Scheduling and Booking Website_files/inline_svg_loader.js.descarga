@@ -1,0 +1,72 @@
+var _svgCache = {};
+var _loaders = {};
+var _toReplace = {};
+
+function InlineSvgLoader(conf) {
+    observeDOM(document, function (m) {
+        if (typeof (jQuery) != 'undefined') {
+            jQuery('svg.sb-inline-svg:not(.loaded)').each(function (idx, el) {
+                if (jQuery(el).children().length === 0) {
+                    var path = conf.path + '/' + jQuery(el).attr('src');
+
+                    addToReplace(el, path);
+                }
+            });
+        }
+    });
+}
+
+function addToReplace(el, path) {
+    if (!_toReplace[path]) {
+        _toReplace[path] = [];
+    }
+    _toReplace[path].push(el);
+
+    replaceElements(path);
+}
+
+function replaceElements(path) {
+    if (_svgCache[path]) {
+        for (var i = 0; i < _toReplace[path].length; i++) {
+            replaceInlineSvg(_toReplace[path][i], _svgCache[path]);
+        }
+    } else {
+        if (!_loaders[path]) {
+            _loaders[path] = jQuery.get(path, function (data) {
+                _svgCache[path] = data;
+
+                replaceElements(path);
+            });
+        }
+    }
+}
+
+function replaceInlineSvg(el, data) {
+    var attrs = {};
+    jQuery(el.attributes).each(function (idx, attr) {
+        attrs[attr.nodeName] = attr.value;
+    });
+
+    var newEl = jQuery(data).children().clone();
+    newEl.attr(attrs);
+
+    jQuery(el).replaceWith(newEl);
+}
+
+var observeDOM = (function () {
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+    return function (obj, callback) {
+        if (!obj || !obj.nodeType === 1) return; // validation
+
+        if (MutationObserver) {
+            var obs = new MutationObserver(function (mutations, observer) {
+                callback(mutations);
+            })
+            obs.observe(obj, {childList: true, subtree: true});
+        } else if (window.addEventListener) {
+            obj.addEventListener('DOMNodeInserted', callback, false);
+            obj.addEventListener('DOMNodeRemoved', callback, false);
+        }
+    }
+})();

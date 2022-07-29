@@ -1,0 +1,183 @@
+define(function (require) {
+
+    var Marionette = require('marionette');
+    var DatePicker = require('third-party-libs/bootstrap/bootstrap-datepicker/dist/js/bootstrap-datepicker.min');
+    var Config = require('Config');
+
+    return Marionette.Object.extend({
+
+        _view: null,
+        _data: {},
+        _dates: [],
+        _collection: null,
+        _updateDatePickerFlag: false,
+
+        initialize: function () {
+            var channel = Backbone.Wreqr.radio.channel('datepicker');
+
+            channel.vent.on('shown', _.bind(this._initDatePicker, this));
+            channel.vent.on('update', _.bind(this._updateDatePicker, this));
+        },
+
+        _initDatePicker: function (data) {
+            this._view = data.view
+
+            this._localizeDatePicker();
+
+            var datePicker = this.getDatepickerContainerUi().datepicker({
+                orientation: 'bottom left',
+                language: 'custom',
+                todayHighlight: true,
+                endDate: data.maxDate,
+                startDate: data.minDate,
+                beforeShowDay: _.bind(this._validateDate, this)
+            }).on('changeMonth', _.bind(this.onChangeMonth, this))
+              .on('changeYear', _.bind(this.onChangeMonth, this))
+              .on('changeDate', _.bind(this.onChange, this))
+              .on('show', function () {
+                  jQuery('.datepicker').attr('translate', 'no');
+                  Backbone.Wreqr.radio.vent.trigger('datepicker', 'show:datepicker', datePicker);
+              }).on('hide', function () {
+                  Backbone.Wreqr.radio.vent.trigger('datepicker', 'hide:datepicker', datePicker);
+              });;
+        },
+
+        _updateDatePicker: function (data) {
+            if (!this.getDatepickerContainerUi()) {
+                return;
+            }
+            this._updateDatePickerFlag = true;
+
+            var currentDate = this.getDatepickerContainerUi().datepicker('getDate');
+            if (data.currentDate && (!currentDate || currentDate.getMysqlDate() !== data.currentDate.getMysqlDate())) {
+                this.getDatepickerContainerUi().datepicker('setDate', data.currentDate);
+            }
+            if (currentDate && data.currentDate) {
+                if (currentDate.getMonth() !== data.currentDate.getMonth() || currentDate.getFullYear() !== data.currentDate.getFullYear()) {
+                    this._updateMonth(data.currentDate);
+                }
+            }
+
+            this._data = data;
+            this._collection = data.collection;
+
+            this._dates = this._collection.getDays(data.timeDiff);
+
+            this.getDatepickerContainerUi().datepicker('fill');
+
+            this._updateDatePickerFlag = false;
+        },
+
+        onChange: function (event) {
+            if (!this._updateDatePickerFlag) {
+                this.getDateInputUi().val(
+                    this.getDatepickerContainerUi().datepicker('getDate').getMysqlDate()
+                ).change();
+
+                this.onChangeMonth(event);
+            }
+        },
+
+        onChangeMonth: function (event) {
+            this._updateMonth(event.date);
+        },
+
+        getMonthInputUi: function () {
+            return this._view.ui.monthInput;
+        },
+
+        getYearInputUi: function () {
+            return this._view.ui.yearInput;
+        },
+
+        getDateInputUi: function () {
+            return this._view.ui.dateInput;
+        },
+
+        getDatepickerContainerUi: function () {
+            if (!this._view) {
+                return null;
+            }
+            return this._view.ui.container;
+        },
+
+        _updateMonth: function (date) {
+            this.getMonthInputUi().val(date.getMonth());
+            this.getYearInputUi().val(date.getFullYear());
+
+            this.getMonthInputUi().change();
+        },
+
+        _validateDate: function (date) {
+            var res = this._validateMinMaxDate(date);
+            if (res) {
+                return res;
+            }
+            if (!this._collection) {
+                return res;
+            }
+
+            var classes = '';
+            var dateStr = date.getMysqlDate();
+            if (_.indexOf(this._data.dates, dateStr) !== -1) {
+                classes += 'active selected-date';
+            }
+
+            if (this._data.dates && this._data.dates.length > 1) {
+                if (date.getDay() === 0 && !Config.getInstance().isMondayFirstDay() || date.getDay() === 1 && Config.getInstance().isMondayFirstDay()) {
+                    classes += ' first-day';
+                }
+                if (date.getDay() === 6 && !Config.getInstance().isMondayFirstDay() || date.getDay() === 0 && Config.getInstance().isMondayFirstDay()) {
+                    classes += ' last-day';
+                }
+            } else {
+                classes += ' single-day';
+            }
+
+            var model = _.findWhere(this._dates, {date: date.getMysqlDate()});
+            if (!model || model.is_day_off) {
+                return {
+                    enabled: false,
+                    classes: classes + ' day-off'
+                };
+            }
+            return {
+                classes: classes
+            };
+        },
+
+        _validateMinMaxDate: function (date) {
+            if (date > this._data.maxDate || date < this._data.minDate) {
+               return {
+                    enabled: false
+                };
+            }
+        },
+
+        _localizeDatePicker: function () {
+            var date = new Date();
+
+            var firstDay = 0;
+            if (Config.getInstance().isMondayFirstDay()) {
+                firstDay = 1;
+            }
+
+            jQuery.fn.datepicker.dates.custom = {
+                days: _.map(date.weekDaysLong, this._t),
+                daysShort: _.map(date.weekDayMedium, this._t),
+                daysMin: _.map(date.weekDayMedium, this._t),
+                months: _.map(date.monthsLong, _.bind(function (val) {
+                    return this._t('_' + val + '_');
+                }, this)),
+                monthsShort: _.map(date.monthsShort, this._t),
+                weekStart: firstDay
+            };
+        },
+
+        _t: function (str) {
+            return Locale.get(str);
+        }
+
+    });
+
+});

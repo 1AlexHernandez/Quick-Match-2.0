@@ -1,0 +1,671 @@
+define(function (require) {
+
+    var Marionette = require('marionette');
+    var Backbone =  require('backbone');
+    var PluginBroker = require('lib/plugin/PluginBroker');
+    var PluginAbstract = require('lib/plugin/PluginAbstract');
+    var BootstrapInlineDatepicker = require('view/helper/BootstrapInlineDatepicker');
+    var ModalPositionHelper = require('view/helper/ModalPositionHelper');
+    var Config = require('Config');
+    var stickyScrollbar = require('third-party-libs/stickyScrollbar');
+    var fancybox = require('third-party-libs/ui-themes-scripts/fancyBox-v3.5.7/jquery.fancybox.min');
+    var imagesLoaded = require('third-party-libs/ui-themes-scripts/imagesloaded');
+    var filterBox = require('third-party-libs/filter-plugin/js/filter');
+    var ThemeSettings = require('lib/theme/ThemeSettings');
+    var Handlebars = require('handlebars');
+
+    return Marionette.Object.extend({
+
+        _modalHelper: null,
+        loadingCount: 0,
+
+        _stepWasChanged: false,
+
+        scrollingNow: false,
+
+        initialize: function () {
+            this.beforeStart();
+        },
+
+        /**
+         * Before start application
+         */
+        beforeStart: function () {
+            this.handleInlineDatePicker();
+            this.initTemplateHelpers();
+
+            this.handleScrollToContent();
+            this.handleScrollToStep();
+            this.handleScrollToMessage();
+
+            var _this = this;
+            var bookingChannel = Backbone.Wreqr.radio.channel('booking');
+            var bookingStepCallback = _.bind(function (data) {
+                _this.menuActiveBg(data);
+
+                if (data.step === 'paid_attributes' || data.step === 'details') {
+                    _this.handlePaidAttribute();
+                }
+            });
+            bookingChannel.vent.on('step:changed', bookingStepCallback);
+
+            Backbone.Wreqr.radio.channel('booking').vent.on(
+                'step:changed', _.bind(_this.menuActiveBg, this)
+            );
+
+            var messagesChannel = Backbone.Wreqr.radio.channel('page');
+            var callback = _.bind(function (options) {
+                //console.log(options.page);
+                if (options.page == 'online_meeting' || options.page == 'invoice') {
+                    $('body').addClass('page--online_meeting');
+                    $('#main-buttons').hide();
+                } else {
+                    $('body').removeClass('page--online_meeting');
+                    $('#main-buttons').show();
+                }
+                if (options.page == 'gallery') {
+                    this.initLoadMoreItemGallery();
+                }
+
+            }, this);
+            messagesChannel.vent.on('shown', callback);
+
+            //galery __module
+            var messagesChannel_2 = Backbone.Wreqr.radio.channel('module');
+            var callback_2 = _.bind(function (options) {
+                switch (options.module) {
+                    case 'gallery':
+                        this.initLoadMoreItemGallery();
+                        break;
+                }
+            }, this);
+            messagesChannel_2.vent.on('shown', callback_2);
+        },
+
+        /**
+         * On start application
+         */
+        start: function () {
+            this.listenTo(PluginBroker.getInstance(), 'group:render', this.addSliders);
+
+            this.handleModalsHelper();
+
+
+            this.handleMapIframe();
+            this.handlePackageList();
+            this.handlePopupAppear();
+
+            this.handleClientPopupEvents();
+            this.preloader();
+
+            this.init();
+            this.stickyScrollbar();
+
+            this.iosHack();
+            this.gtranslatePluginHack();
+
+            this.passwordFieldToggler();
+            this.initFancyBoxGallery('[data-fancybox="gallery_plugin"]');
+            this.usingTheButtonRole();
+            this.initLoadMoreItemGallery();
+        },
+
+        gtranslatePluginHack : function() {
+        $('body').click('#google_translate_element', function () {
+            if (($goog = $('.goog-te-menu-frame').contents().find('body')).length) {
+                var stylesHTML = '<link rel="stylesheet" href="/v2/themes/assets/css/google-translate-iframe.css">';
+                $goog.prepend(stylesHTML);
+            }
+        });
+    },
+
+
+        iosHack : function(){
+            if (/iPhone|iPad|iPod/.test(navigator.platform) && navigator.userAgent.indexOf("AppleWebKit") > -1) {
+                jQuery('head').find('meta[name=viewport]').remove();
+                jQuery('head').append('<meta name="viewport" content="width=device-width, user-scalable=no">');
+            }
+        },
+
+        /**
+         * please add your plugins and external libraries initialisations here e.g.:
+         *
+         * var pluginBroker = PluginBroker.getInstance();
+         * pluginBroker.addPlugin(new MyPlugin());
+         *
+         * but do not forget to define it before use.
+         * You can use 'ext' alias path to require your files
+         *
+         * @abstract
+         */
+        init: function () {
+
+        },
+
+        initTemplateHelpers: function () {
+            Handlebars.registerHelper('getCatName', function(){
+                var company = Config.getInstance().getOption('company_data');
+                var loginInteger = parseInt(company.login, 36);
+                var r = loginInteger % 5;
+                if (company.category_keys) {
+                    for (var i = 0; i < company.category_keys.length; i++) {
+                        var value = company.category_keys[i];
+                        switch (value) {
+                            // please setup images here
+                            case 'medical':
+                                return 'medical';
+                            case 'appearance':
+                                return 'appearance';
+                            case 'entertainment':
+                                return 'entertainment';
+                            case 'consultants':
+                                return 'consultants';
+                            case 'education':
+                                return 'education';
+                            case 'official':
+                                return 'official';
+                            case 'sport':
+                                return 'sport';
+                            case 'other':
+                                return 'other_' + r;
+
+                        }
+                    }
+                }
+            });
+            Handlebars.registerHelper('getDefaultBgImage', function () {
+                var company = Config.getInstance().getOption('company_data');
+                var loginInteger = parseInt(company.login, 36);
+                var r = loginInteger % 5;
+
+                if (company.category_keys) {
+                    for (var i = 0; i < company.category_keys.length; i++) {
+                        var value = company.category_keys[i];
+                        switch (value) {
+                            // please setup images here
+                            case 'medical':
+                                return '/v2/themes/assets/img/categories/medical.jpg';
+                            case 'appearance':
+                                return '/v2/themes/assets/img/categories/appearance.jpg';
+                            case 'entertainment':
+                                return '/v2/themes/assets/img/categories/entertainment.jpg';
+                            case 'consultants':
+                                return '/v2/themes/assets/img/categories/consultants.jpg';
+                            case 'education':
+                                return '/v2/themes/assets/img/categories/education.jpg';
+                            case 'official':
+                                return '/v2/themes/assets/img/categories/official.jpg';
+                            case 'sport':
+                                return '/v2/themes/assets/img/categories/sport.jpg';
+                            case 'other':
+                                return '/v2/themes/assets/img/categories/other_' + r + '.jpg';
+
+                        }
+                    }
+                }
+
+                return '/v2/themes/default/img/main-image.jpg';
+            });
+
+
+            Handlebars.registerHelper('getSocialSystemClass', function (socialSystemKey, options) {
+                var key = socialSystemKey;
+                var keyMap = {
+                    'facebook' : 'fb',
+                    'twitter' : 'tw',
+                    'linkedin' : 'ln',
+                    'instagram' : 'ig',
+                };
+
+                if(keyMap.hasOwnProperty(socialSystemKey)){
+                    key = keyMap[socialSystemKey];
+                }
+                return key;
+            });
+        },
+
+        handleMapIframe: function () {
+            jQuery(document).on('shown.bs.modal show.bs.collapse', '.sb-map-container', function (event) {
+                var map = jQuery('.sb-map', jQuery(event.currentTarget));
+                if (map && map.length) {
+                    var iframe = jQuery('<iframe />');
+                    iframe.attr(map.data());
+
+                    map.replaceWith(iframe);
+                }
+            });
+        },
+
+        handlePackageList: function () {
+            jQuery(document).on('show.bs.collapse', '.collapse-package-container', function (event) {
+                $(this).closest('.package-item.panel').addClass('expanded');
+            });
+
+            jQuery(document).on('hide.bs.collapse', '.collapse-package-container', function (event) {
+                $(this).closest('.package-item.panel').removeClass('expanded');
+            });
+        },
+
+        //inside iframe fix popup appear in 'overflow: auto' divs Daily classes timeline on IOS
+        handlePopupAppear: function(){
+            //console.log('dell');
+            jQuery(document).on('shown.bs.modal', '.is-widget.fbdp .classes-plugin-wrapper .provider-col .modal', function (event) {
+                $('.fbdp #sb-timeline .timeline-wrapper #sb-time-classes-container').addClass('set-hidden-content');
+            });
+
+            jQuery(document).on('hidden.bs.modal', '.is-widget.fbdp .classes-plugin-wrapper .provider-col .modal', function (event) {
+                $('.fbdp #sb-timeline .timeline-wrapper #sb-time-classes-container').removeClass('set-hidden-content');
+            });
+        },
+
+        handleClientPopupEvents: function () {
+            jQuery(document).on('click', '.sb-client-info-popup', function () {
+                Backbone.Wreqr.radio.vent.trigger('client_login', 'viewProfilePopup');
+            });
+            jQuery(document).on('click', '.sb-client-edit-popup', function () {
+                Backbone.Wreqr.radio.vent.trigger('client_login', 'editProfilePopup');
+            });
+            jQuery(document).on('click', '.sb-client-remind-popup', function () {
+                Backbone.Wreqr.radio.vent.trigger('client_login', 'remindPopup');
+            });
+
+            // remove backdrop on navigate buttons
+            window.onpopstate = function () {
+                $('body').removeClass('hasModal').removeClass('modal-open');
+                $('.modal-backdrop').fadeOut(function () {
+                    $('.modal-backdrop').remove();
+                });
+            };
+        },
+
+        handleInlineDatePicker: function () {
+            var helper = new BootstrapInlineDatepicker();
+        },
+
+        handleModalsHelper: function () {
+            this._modalHelper = new ModalPositionHelper();
+        },
+
+        handleScrollToContent: function () {
+            var messagesChannel = Backbone.Wreqr.radio.channel('page');
+            var modulesMessagesChannel = Backbone.Wreqr.radio.channel('module');
+
+            var callback = _.bind(function (options) {
+                //console.log(options.page)
+                switch (options.page) {
+                    case 'index':
+                        if (options.showOnMap) {
+
+                            var _this = this;
+
+                            setTimeout(function() {
+                                _this._scrollTo('#sb_map', true, false);
+                            });
+                        }
+                        break;
+                    case 'product':
+                        this._scrollTo('#sb_product_container', true, false, true);
+                        break;
+                    case 'attribute':
+                        this._scrollTo('#sb_attribute_container', true, false, true);
+                        break;
+                    case 'client_login':
+                        if( $('#sb_content .has-error').length){
+                            this._scrollTo('#sb_content .has-error', true, false, true);
+                        } else {
+                            this._scrollTo('#sb_content', true, false, true);
+                        }
+                        break;
+                    case 'client_profile':
+                        this._scrollTo('#sb_content .has-success, #sb_content .has-error', true, false, true);
+                        break;
+                    case 'reviews':
+                    case 'booking':
+                    case 'booking_reschedule':
+                    case 'my_bookings':
+                    case 'my_invoices':
+                    case 'membership':
+                    case 'packages':
+                    case 'gift-card':
+                    case 'client-gift-card':
+                    case 'gallery':
+                    case 'static-page':
+                    case 'social_gallery':
+                    case 'news':
+                    case 'news_details':
+                    case 'contact_widget':
+                    case 'paid_attributes':
+                    case 'medical_test':
+                    case 'bonus_buy':
+                    case 'client_bonus_list':
+                        this._scrollTo('#sb_content', true, false);
+                        break;
+                }
+            }, this);
+
+            var callbackModules = _.bind(function (options) {
+                switch (options.module) {
+                    case 'reviews':
+                        if(options.type && options.type === 'page') {
+                            this._scrollTo('#sb_reviews_module', true, false, true);
+                        }
+                        break;
+                }
+            }, this);
+
+            messagesChannel.vent.on('shown', callback);
+            modulesMessagesChannel.vent.on('shown', callbackModules);
+        },
+
+        handleScrollToStep: function () {
+            var messagesChannel = Backbone.Wreqr.radio.channel('booking');
+            var callback = _.bind(function (options) {
+                if (options.has_view) {
+                    this._scrollTo('#sb_content', true, true, true);
+                }
+            }, this);
+
+            messagesChannel.vent.on('step:changed', callback);
+        },
+
+        handleScrollToMessage: function () {
+            var messagesChannel = Backbone.Wreqr.radio.channel('status_message');
+            messagesChannel.vent.on('shown', _.bind(function () {
+                this._scrollTo('.alert', true);
+            }, this));
+
+            var errorsChannel = Backbone.Wreqr.radio.channel('field_error');
+            errorsChannel.vent.on('shown', _.debounce(_.bind(function (options) {
+
+                switch(options.type){
+                    case "additional_fields":
+                        this._scrollTo("#sb_additional_fields_container .has-error", true, false, true);
+                        break;
+                    case "promo_code":
+                        this._scrollTo("#sb_promo_container", true, false, true);
+                        break;
+                    default:
+                        this._scrollTo('#sb_client_info_container', true, false, true);
+                        break;
+                }
+
+            }, this), 300));
+        },
+
+        _scrollTo: function (selector, force, pageRender, scrollWidget) {
+            var offset = $(selector).offset();
+
+            if (this.scrollingNow) {
+                return;
+            }
+
+            if (!offset) {
+                return;
+            }
+
+            this.scrollingNow = true;
+
+            var top = $(window).scrollTop();
+            var bottom = top + $(window).height() - $(window).height() / 2;
+            var messageTop = offset.top;
+            if (force || ((messageTop < top && pageRender) || messageTop > bottom)) {
+                $('html, body').stop().animate({
+                    scrollTop: $(selector).offset().top
+                }, 500, 'swing', _.bind(function () {
+                    this.scrollingNow = false;
+                }, this));
+            }
+            if (!pageRender && scrollWidget) {
+                this._scrollWidgetTo(selector);
+            }
+        },
+
+        _scrollWidgetTo: function (selector) {
+            if (window.parent) {
+                window.parent.postMessage({
+                    'event': 'scrollTo',
+                    'content_position': $(selector).offset().top
+                }, '*');
+            }
+        },
+
+        addSliders: function (view) {
+            var input = jQuery('.input', view.$el);
+            var slider = jQuery('.slider', view.$el);
+
+            slider.slider({
+                isRTL: Config.getInstance().isRtl(),
+                animate: true,
+                max: input.data('max'),
+                min: 1,
+                value: input.val(),
+                slide: function (event, ui) {
+                    input.val(ui.value).change();
+                    jQuery(ui.handle).text(ui.value);
+                }
+            });
+
+            if (slider.slider('instance').handle) {
+                slider.slider('instance').handle.text(input.val());
+            }
+        },
+
+        stickyScrollbar: function () {
+            $(document).stickyScrollbar({
+                el: '.fixed-scrollbar'
+            });
+        },
+
+        preloader: function () {
+            var instance = this;
+            jQuery(document).ajaxSend(function (event, xhr, options) {
+                if (options.skip_loader === true) {
+                    return;
+                }
+
+                instance.loadingCount++;
+
+                if (instance.loadingCount === 1) {
+                    jQuery('#preloader').fadeIn();
+                }
+            }).ajaxComplete(function () {
+                instance.loadingCount--;
+                if (instance.loadingCount <= 0) {
+                    jQuery('#preloader').fadeOut();
+
+                    instance.loadingCount = 0;
+                }
+            });
+        },
+
+        _setDropDown : function($menu, childrenMenuClass){
+            var $items = $menu.find('li');
+            var maxItems = 4;
+
+            if($items.length > maxItems) {
+                var len = $items.length;
+                var menuItem =
+                    "<li id='sb_appended_menu_item' class='header__navigation-item header__navigation-item--dropdown'>" +
+                        "<a href='#' onclick='void(0);' class='header__navigation-link header__navigation-link-dropdown'> " + Locale.get('More') +
+                        "<i class='fa fa-angle-down'></i></a>" +
+                        "<ul id='sb_appended_child_menu'></ul>" +
+                    "</li>";
+                $menu.append(menuItem);
+                while(len > maxItems - 1) {
+                    $(childrenMenuClass).prepend($items[len - 1]);
+                    len--;
+                }
+            }
+        },
+
+        dropDownMenu: function(){
+            var _this = this;
+            var _isDropdownMenuAppended = false;
+            //var theme = ThemeSettings.getInstance().getThemeName();
+            var minWidth = 1024;
+
+            var $menu = $("#sb_menu ul");
+            var childrenMenuClass = "#sb_appended_child_menu";
+            var childrenTopItemClass = "#sb_appended_menu_item";
+            var childrenItemsClass = "#sb_appended_child_menu li";
+
+            var setDropdown = function(){
+                var curWidth = $(window).width();
+                if( curWidth <= minWidth && _isDropdownMenuAppended){
+                    _isDropdownMenuAppended = false;
+                    $menu.append($(childrenItemsClass));
+                    $(childrenTopItemClass).remove();
+                }
+                if(curWidth > minWidth && !_isDropdownMenuAppended){
+                    _this._setDropDown($menu, childrenMenuClass);
+                    _isDropdownMenuAppended = true;
+                }
+            };
+
+            $(window).resize(setDropdown);
+            setDropdown();
+        },
+
+
+        initScrollTopBtn: function () {
+            var $btn = $("#sb_scroll_top_btn");
+            $btn.on("click", function () {
+                $("html, body").animate({scrollTop: 0}, 700);
+            });
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 300) {
+                    $btn.addClass("show");
+                } else {
+                    $btn.removeClass("show");
+                }
+            })
+        },
+
+        menuActiveBg: function(data) {
+            if (data.step == 'details' || data.step == 'client-login') {
+                $('#menu-active-bg').addClass('full');
+            } else {
+                $('#menu-active-bg').removeClass('full');
+            }
+        },
+
+        initGroupBookingInput: function () {
+            //input number count
+            $(".sb-group-counter-input-div").each(function() {
+                var curInpVal = $(this).siblings("input[type='hidden']").val();
+                $(this).html(curInpVal);
+            });
+
+            $(document).on("click", ".sb_group_count", function () {
+                var $divInp = $(this).parent().children(".sb-group-counter-input-div");
+                var $inp = $(this).parent().children("input[type='hidden']");
+                var currVal = $($inp).val();
+                var maxVal = $($inp).data("max");
+                var minVal = $($inp).data("min");
+
+                $($divInp).html(currVal);
+
+                var operationIncrement = $(this).hasClass("plus")?1:($(this).hasClass("minus")?-1:0);
+                var resultVal = parseInt(currVal) + operationIncrement;
+
+                if(resultVal <= maxVal && resultVal >= minVal){
+                    $($inp).val(resultVal).change();
+                    $($divInp).html(resultVal);
+                }
+            });
+        },
+
+        passwordFieldToggler: function() {
+            $(document).on('click', '.password-toggler', function() {
+                let $passwordInput = $(this).closest('div').find($('input[name="password"]'));
+
+                $(this).children('.fa').toggleClass('fa-eye fa-eye-slash');
+                if ($passwordInput.attr('type') === 'password') {
+                    $passwordInput.attr('type', 'text');
+                } else {
+                    $passwordInput.attr('type', 'password');
+                }
+            });
+        },
+
+        initFancyBoxGallery: function () {
+            //console.log('init fancybox gallery');
+
+            $('[data-fancybox="gallery_plugin"]').fancybox({
+                buttons : [
+                    'slideShow',
+                    'zoom',
+                    'fullScreen',
+                    'close'
+                    //'thumbs'
+                ],
+                thumbs : {
+                    autoStart : false
+                }
+            });
+        },
+
+        usingTheButtonRole: function () {
+            //console.log( 'run button mode' );
+            $(document).on('keypress',  [
+                    '*[role="button"]'
+                ].join(', ') ,
+                function (event) {
+                    $('.item__read-more').attr('aria-pressed', false);
+                    if (event.keyCode == 13 || event.keyCode == 32) {
+                        //console.log( 'Simulate click' )
+                        $(this).click();
+                        $(this).attr("aria-pressed", true);
+                    }
+                });
+
+        },
+
+        initLoadMoreItemGallery: function (){
+            let $loadMore = $('.btn--load-more'),
+                $items = $("#gallery-view .img-list .img-list--item");
+
+            $items.addClass('hidden-item');
+            $loadMore.fadeOut(100);
+
+            function setImageSrc( item ){ // set src for image
+                for ( let i = 0; i < item.length; i++ ){
+                    let imageSrc = $(item[i]).find('img').data('image-src');
+                    $(item[i]).find('img').attr('src', imageSrc);
+                }
+            }
+
+            let firstItems = $items.slice(0, 5);
+            setImageSrc( firstItems );
+
+            $items.slice(0, 5).addClass('shoved-item').removeClass('hidden-item');
+
+            if( $('#gallery-view .img-list li.hidden-item').length > 0 ){
+                $loadMore.fadeIn(100);
+            }
+
+            $loadMore.on('click', $loadMore, function (e) {
+                e.preventDefault();
+                let nextItems = $("#gallery-view .img-list li.hidden-item").slice(0, 4);
+                setImageSrc( nextItems );
+                $("#gallery-view .img-list li.hidden-item").slice(0, 4).addClass('shoved-item').removeClass('hidden-item');
+                if ( $("#gallery-view .img-list li.hidden-item" ).length == 0) {
+                    $('.btn-bar--gallery').fadeOut(300);
+                }
+
+                $('html,body').animate({
+                    scrollTop: $(this).offset().top - 300
+                }, 1000);
+            });
+        },
+
+        handlePaidAttribute: function() {
+            console.log('here')
+            $(document).on('click', '.paid-attr__item-clickable-cover', function(e) {
+                let attrItem = $(e.target).parent();
+                let attrLabel = attrItem.find('label');
+                attrLabel.click();
+            });
+        },
+    });
+});

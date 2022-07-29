@@ -1,0 +1,55 @@
+{% extends 'principal/principal.html' %}
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<br><br>
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card">
+            
+            <div class="card-body">
+                <h2>Perfil</h2>
+                <hr>
+                <form class="col pr-0" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="input-wraper">
+                    <label>Nombre</label>
+                    {{ u_formulario.first_name }}
+                </div>
+                
+                <div class="input-wraper">
+                    <label for="user-name-id">Username</label>
+                    {{ u_formulario.username }}
+                </div>
+
+                <div class="input-wraper">
+                    <label>descripcion</label>
+                    {{ p_formulario.descripcion }}
+                </div>
+
+                <div class="input-wraper">
+                    
+                    {{ p_formulario.image }}
+                </div>
+                
+                <div class="d-felx justify-content-end">
+                <input href="{% url 'perfil' %}"type="reset" value="Cancelar" class="btn btn-secondary">
+                 &nbsp;
+                 <button class="btn btn-primary">Actualizar</button>
+                 <a href="{% url 'perfil' %}" class="btn btn-primary py-3 px-4">Cerrar</a>
+            </div>
+        </form>
+        {{mensaje}}
+    </div>
+</div>
+</div>
+</div>   
+
+
+</body>
+</html>
+
+
+{% endblock %}

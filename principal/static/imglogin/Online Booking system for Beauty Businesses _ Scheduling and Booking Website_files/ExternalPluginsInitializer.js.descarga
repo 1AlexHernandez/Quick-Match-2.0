@@ -1,0 +1,292 @@
+define(function (require) {
+
+    var PluginBroker = require('lib/plugin/PluginBroker');
+    var ThemeExternalPluginInitializer = require('view/theme/ThemeExternalPluginInitializer');
+    //var LightBox = require('third-party-libs/lightbox/src/js/lightbox');
+    var Slick = require('third-party-libs/slick.min');
+
+    return ThemeExternalPluginInitializer.extend({
+
+        _clientLoginInitialized: false,
+
+        /**
+         * please add your plugins and external libraries initialisations here e.g.:
+         *
+         * var pluginBroker = PluginBroker.getInstance();
+         * pluginBroker.addPlugin(new MyPlugin());
+         *
+         * but do not forget to define it before use.
+         * You can use 'ext' alias path to require your files
+         */
+        init: function () {
+            // LightBox.option({
+            //     wrapAround: true
+            // });
+            this.dropDownMenu();
+            this.initScrollTopBtn();
+            this.handleRtl();
+            this.handleLoginTabs();
+            this.handleFixedHeader();
+            this.handleMenu();
+
+            this.handlePages();
+
+            this.popups();
+            this.closeNavPopups();
+            this.initGroupBookingInput();
+            this.closeGdprPopup();
+            this.closeModalInWidget();
+            this.setSignUpTab();
+        },
+
+        beforeStart: function () {
+            ThemeExternalPluginInitializer.prototype.beforeStart.apply(this);
+
+            var messagesChannel = Backbone.Wreqr.radio.channel('page');
+            var callback = _.bind(function (options) {
+                if (options.page == 'client_login') {
+                    this.openSignUpTab();
+                } else {
+
+                }
+            }, this);
+            messagesChannel.vent.on('shown', callback);
+        },
+
+        handleRtl: function () {
+            $("html[dir='rtl'] body").addClass("has_rtl_mode");
+        },
+
+        handleLoginTabs: function () {
+            $(document).on("click", "#cs_register_or_login_tabs ul li a", function (e) {
+                e.preventDefault();
+                $("#cs_register_or_login_tabs ul li").removeClass("active");
+                $("#client-login .custom-form .authorize_form_wrap").removeClass("active");
+                var for_display = $(this).data("block");
+                $(this).parent().addClass("active");
+                $("#" + for_display).addClass("active");
+
+                let signUpLink = $('.to-sign-up');
+                let signUpTab = $("#client-login .sign_up_wrap");
+
+                if (signUpTab.hasClass('active')) {
+                    signUpLink.hide();
+                } else {
+                    signUpLink.show();
+                }
+            });
+
+            $(document).on('click', '.to-sign-up__link', function() {
+                $("#cs_register_or_login_tabs ul li").removeClass("active");
+                $("#client-login .custom-form .authorize_form_wrap").removeClass("active");
+
+                let signUpTabId = 'cs_registration';
+                let signUpTabTitle = $('#cs_register_or_login_tabs ul li a[data-block="' + signUpTabId + '"]');
+                signUpTabTitle.parent().addClass('active');
+                $("#" + signUpTabId).addClass("active");
+                $(this).parent().hide();
+            });
+        },
+
+        setSignUpTab: function (){
+            try {
+                //console.log('setSignUpTab');
+                $(document).on("click", "#header #sb_login_form .btn--sign-up", function (e) {
+                    localStorage.setItem('setActiveSignUpTab', 'sign_up');
+                });
+                $(document).on("click", ".removeSignUpFlag", function (e) {
+                    localStorage.removeItem('setActiveSignUpTab');
+                });
+            } catch (err) {
+                // skip in case local storage is not available
+            }
+        },
+
+        openSignUpTab: function (){
+            var localStorageData = false;
+            try {
+                localStorageData = localStorage.getItem('setActiveSignUpTab');
+            } catch (err) {
+                // skip in case local storage is not available
+            }
+
+            if( localStorageData ){
+                $(".cs_nav_item").each(function (){
+                    if( $(this).find('a').data('block') == 'cs_registration' ){
+                        $(this).addClass('active');
+                    }else {
+                        $(this).removeClass('active');
+                    }
+                });
+                $("#client-login #cs_login").removeClass("active");
+                $('#cs_registration').addClass('active');
+            }
+        },
+
+        handleFixedHeader: function () {
+            $(window).scroll(function () {
+                var st = $(this).scrollTop();
+                if (st > 1) {
+                    $("#header").addClass("with-shadow");
+                }
+                else if (st <= 0) {
+                    $("#header").removeClass("with-shadow");
+                }
+            });
+        },
+
+        handleMenu: function () {
+            //Animate hamburger by class toogle
+            $(document).on("click", ".hamburger", function () {
+                $(this).toggleClass("is-active");
+            });
+            //open and close menu btn (hamburger)
+            $(document).on("click", "#sb_mob_menu_trigger", function(){
+                $("body, #header .nav-wrapper, #header #sb_mob_menu_overlay").toggleClass("mob-active");
+            });
+            //Close menu triggers
+            $(document).on("click" , "#sb_close_mob_menu_btn, #sb_mob_menu_overlay", function(){
+                $("#sb_mob_menu_trigger").trigger("click");
+            });
+            $(document).on("click", "#header .nav li", function(){
+                $("#sb_mob_menu_trigger").trigger("click");
+            });
+        },
+
+        handlePages: function () {
+            var messagesChannel = Backbone.Wreqr.radio.channel('page');
+            var callback = _.bind(function (options) {
+                /*if (options.page === 'reviews') {
+                    this.initReviewsList();
+                }*/
+            }, this);
+
+            messagesChannel.vent.on('shown', callback);
+        },
+
+        /*initReviewsList: function () {
+            $(".reviews-slick").slick({
+                slidesToShow: 1,
+                rows: 2,
+                speed: 700,
+                dots: true,
+                arrows: false
+            });
+        },*/
+
+        popups: function () {
+
+            var instance = this;
+
+            //CART POPUP
+            instance.handlePopup({
+                trigger: '#header #sb_multiple_book_cart .cart',
+                component: '#header #sb_multiple_book_cart .full-info',
+                modal: false,
+                // close_btn: '#header .link'
+            });
+
+            // AVATAR INFO
+            instance.handlePopup({
+                trigger: '#header #sb_client_info .avatar',
+                component: '#header #sb_client_info .full-info',
+                modal: false,
+                // close_btn: '#header .link'
+            });
+
+            // TIMELINE TAB FULL INFO
+            // instance.handlePopup({
+            //     trigger: '.tab.tab-with-popup .full-info-trigger',
+            //     component: '.tab.tab-with-popup .full-info',
+            //     modal: true,
+            //     close_btn: '.tab.tab-with-popup .close-full-info'
+            // });
+
+            // TIMELINE CLASSES PLUGIN FULL INFO
+            // instance.handlePopup({
+            //     trigger: '.provider-item.has-popup .full-info-trigger',
+            //     component: '.cls-info.full-info',
+            //     modal: true,
+            //     close_btn: '.provider-item.has-popup .close-full-info'
+            // });
+
+            Backbone.Wreqr.radio.channel('event').vent.on('review:saved', instance.hideReviewPopup);
+        },
+
+        hideReviewPopup: function () {
+            $('body').removeClass('hasModal');
+            $('#sb_reviews_add_container .close').trigger('click');
+        },
+
+        handlePopup: function (settings) {
+            var popupTrigger = settings.trigger;
+            var popupComponent = settings.component;
+            var popupModal = settings.modal;
+            var popupClose = settings.close_btn;
+
+            var instance = this;
+            var listenerId = null;
+
+            $(document).on('click', popupTrigger, function (e) {
+                var x = $(this).closest(':has(' + popupComponent + ')').find(popupComponent);
+                x.toggleClass('active');
+                if (popupModal) {
+                    $('body').toggleClass('hasModal');
+
+                    listenerId = instance._modalHelper.updatePosition(popupComponent);
+                }
+            });
+            $(document).on("click", function (e) {
+                var isTrigger = $(e.target).closest(popupTrigger).length;
+                var isComponent = $(e.target).closest(popupComponent).length;
+                var isPopupClose = $(e.target).closest(popupClose).length;
+                if (!isComponent && !isTrigger || isPopupClose) {
+                    if ($(popupComponent).hasClass('active')) {
+                        $(popupComponent).removeClass('active');
+                        if (popupModal) {
+                            $('body').removeClass('hasModal');
+
+                            instance._modalHelper.removeListener(listenerId);
+                        }
+                    }
+                }
+            });
+
+        },
+
+        closeNavPopups: function () {
+            $(document).on("click", '.popup-hide', function () {
+                $('body').removeClass('hasModal');
+                $('#header .nav-wrapper').removeClass('active');
+                $('.full-info.active').removeClass('active');
+                $('.modal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            });
+        },
+
+ closeGdprPopup: function(){
+            $(document).on("click", function (e) {
+
+                var container = $("#sb_gdpr_email_form");
+
+                // if the target of the click isn't the container nor a descendant of the container
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                    container.find('.sb_gdpr_close_form_btn').trigger('click'); ;
+                }
+            });
+        },
+
+        addSliders: function () {
+            // suppress parent slider initialization
+        },
+
+        closeModalInWidget: function(){
+            $(document).on('click touchstart', '.is-widget .modal-backdrop.in', function (e) {
+                $('.modal.in').modal('hide');
+            })
+        }
+
+    });
+
+});
