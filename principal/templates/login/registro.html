@@ -45,36 +45,41 @@
                 <div class="card-heading"> </div>
                 <div class="card-body">
                     <h2 class="title">Registrate</h2>
-                    <form action="{% url 'registro' %}" method="post" enctype="multipart/form-data">
+                    <form action="{% url 'register' %}" method="POST" >
                         {% csrf_token %}
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Nombres</label>
+
+                          <div class="input-group">
+                            <input class="input--style-3" type="text"  placeholder="username">
+                              {{ form.username|add_class:"form-control"}}
+                            </div>
+                            <div class="input-group">
+                              <input class="input--style-3" type="text"  placeholder="Nombre">
                               {{ form.first_name|add_class:"form-control"}}
                             </div>
                        
-                            <div class="form-group col-md-6">
-                                <label for="text">Apellidos</label>
+                            <div class="input-group">
+                              <input class="input--style-3" type="text"  placeholder="Apellidos">
                               {{form.last_name|add_class:"form-control" }}
                             </div>
                           
-                            <div class="form-group col-md-6">
-                                <label for="inputEmail4">Email</label>
+                            <div class="input-group">
+                              <input class="input--style-3" type="email" placeholder="Email" name="email">
                               {{form.email|add_class:"form-control" }}
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputPassword">Contraseña</label>
+                            <div class="input-group">
+                              <input class="input--style-3" type="password" placeholder="Contraseña" name="Contraseña">
                               {{form.password1|add_class:"form-control" }}
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputPassword"></label>
+                            <div class="input-group">
+                              <input class="input--style-3" type="password" placeholder="Confirmar Contraseña" name="Confirmar Contraseña">
                               {{form.password2|add_class:"form-control" }}
                             </div>
                           </div>
-                          <div class="d-felx justify-content-end">
+                          <div class="button">
                             <button type="submit" class="btn btn-primary  btn btn--pill btn--green">Registrar<button>
                              
-                                <a href="{% url 'login1' %}"> ¿ya tienes cuenta?  inicia sesión</a>
+                                <a class="input--style-3"  href="{% url 'login1' %}"> ¿ya tienes cuenta?  inicia sesión</a>
                     </div>
                          
                         </div>

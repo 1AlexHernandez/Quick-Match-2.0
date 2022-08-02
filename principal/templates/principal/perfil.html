@@ -1,13 +1,17 @@
 {% extends 'principal/principal.html' %}
 
 {% block content %}
-
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="{% static 'perfil.css' %}">
+	
    <title></title>
 </head>
 <body>
@@ -16,34 +20,34 @@
    <br>
    <br>
    <br>
-   <br>
-   
-   <br>
-
-   <style
-   
-   >
-     .perfil{
-      margin: 0 auto;
-      text-align: center;
-      padding: 100px;
-     }
-
-
-   </style>
-   <div  class="perfil"  >
-      <a  href="{{ user.perfil.image.url }}" class="image-popup"><img src="{{ user.perfil.image.url }}" width="200px" height="200px" style="border-radius:50px;" ></a> <hr>
-      <h2>{{ user.username }}</h2><hr>
-      <h2>Descripcion</h2> <hr>
-				<p>{{ user.perfil.descripcion }}</p>
-            <h3><a href="{% url 'editar_Perfil' %}" class="btn btn-primary py-3 px-4">Edit Perfil</a></h3>
-   
+  
+ 
+<div class="padding">
+   <div class="col-md-8">
+       <!-- Column -->
+       <div class="card"> <img class="card-img-top" src="{% static 'images/gif - copia/balon.gif' %}" alt="Card image cap">
+           <div class="card-body little-profile text-center">
+               <div class="pro-img"> <a href="{{ user.perfil.image.url }}"><img src="{{ user.perfil.image.url }}" alt="user"></a></div>
+               <p>Usuario:</p>
+               <h3 class="m-b-0">{{ user.username }}</h3> <br>
+               
+              <!----> <p>Descripción:</p>{{ user.perfil.descripcion }} <hr>
+                   <h3><a href="{% url 'editar_Perfil' %}" class="button">Editar Perfil</a></h3>
+                  <!-- <div class="col-lg-4 col-md-4 m-t-20">
+                       <h3 class="m-b-0 font-light">434K</h3><small>Followers</small>
+                   </div>
+                   <div class="col-lg-4 col-md-4 m-t-20">
+                       <h3 class="m-b-0 font-light">5454</h3><small>Following</small>
+                   </div>-->
+               </div>
+           </div>
+       </div>
    </div>
+</div>
 
    
 </body>
 </html>
 
 {% endblock %}
-
 

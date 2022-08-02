@@ -40,10 +40,10 @@ urlpatterns = [
     #path('', index, name="principal"),
     path('login1/', LoginView.as_view(template_name='login/login1.html'), name="login1"),
     path('logout/', LogoutView.as_view(template_name='login/login1.html'), name="logout"),
-    path('registro/', registro, name="registro"),
-    path('registro/', registro, name="registro"),
+    path('register/', register, name="register"),
     path('reserva/', reserva, name="reserva"),
     path('cotizacion/', cotizacion, name="cotizar"),
+     path('cancelacion/', cancelacion, name="cancelacion"),
     path('templo/<int:pk>/', templo, name="templo"),
     path('agregar/', agregar, name="agregar"),
     path('listar/', listar, name="listar"),
@@ -58,6 +58,7 @@ urlpatterns = [
     path('calendar/', calendar, name="calendar"),
     #path('contact/', contact, name="contact")
     path('charts/', chat),
+    path('vistas_usuario/', vistas_usuario, name='vistas_usuario'),
 
 
 

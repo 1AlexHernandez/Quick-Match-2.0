@@ -30,7 +30,7 @@
 body, html {
 	height: 100%;
 	font-family: Ubuntu-Regular, sans-serif;
-  background: #ffffff24;
+  background: #D3DC3F;
 }
 
 /*---------------------------------------------*/
@@ -38,7 +38,7 @@ a {
 	font-family: Ubuntu-Regular;
 	font-size: 14px;
 	line-height: 1.7;
-	color: #666666;
+	color: #D3DC3F;
 	margin: 0px;
 	transition: all 0.4s;
 	-webkit-transition: all 0.4s;
@@ -64,7 +64,7 @@ p {
 	font-family: Ubuntu-Regular;
 	font-size: 14px;
 	line-height: 1.7;
-	color: #666666;
+	color: #111;
 	margin: 0px;
 }
 
@@ -99,15 +99,15 @@ textarea:focus:-moz-placeholder { color:transparent; }
 textarea:focus::-moz-placeholder { color:transparent; }
 textarea:focus:-ms-input-placeholder { color:transparent; }
 
-input::-webkit-input-placeholder { color: #555555;}
-input:-moz-placeholder { color: #555555;}
-input::-moz-placeholder { color: #555555;}
-input:-ms-input-placeholder { color: #555555;}
+input::-webkit-input-placeholder { color: #D3DC3F;}
+input:-moz-placeholder { color: #D3DC3F;}
+input::-moz-placeholder { color: #D3DC3F;}
+input:-ms-input-placeholder { color: #D3DC3F;}
 
-textarea::-webkit-input-placeholder { color: #555555;}
-textarea:-moz-placeholder { color: #555555;}
-textarea::-moz-placeholder { color: #555555;}
-textarea:-ms-input-placeholder { color: #555555;}
+textarea::-webkit-input-placeholder { color: #fff ;}
+textarea:-moz-placeholder { color: #fff;}
+textarea::-moz-placeholder { color: #fff;}
+textarea:-ms-input-placeholder { color: #fff;}
 
 label {
   margin: 0;
@@ -212,14 +212,14 @@ iframe {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background-color: #ffffff24;
+  background-color: #ffff;
   margin: 0 auto;
 }
 
 .login100-form-title {
   font-family: Ubuntu-Bold;
   font-size: 28px;
-  color: #ffffff24;
+  color: #D3DC3F;
   line-height: 1.2;
   text-align: center;
   text-transform: uppercase;
@@ -241,7 +241,7 @@ iframe {
 .input100 {
   font-family: Ubuntu-Regular;
   font-size: 20px;
-  color: #555555;
+  color: rgb(170, 209, 32);
   line-height: 1.2;
 
   display: block;
@@ -281,10 +281,10 @@ iframe {
   transition: all 0.4s;
 
   background: #d41872;
-  background: -webkit-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -o-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -moz-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: linear-gradient(left, #a445b2, #d41872, #fa4299);
+  background: -webkit-linear-gradient(left,#45b24e, #18c3d4, #42fa59);
+  background: -o-linear-gradient(left, #45b24e, #18c3d4, #42fa59);
+  background: -moz-linear-gradient(left, #45b24e, #18c3d4, #42fa59);
+  background: linear-gradient(left, #45b24e, #18c3d4, #42fa59);
 }
 
 .focus-input100::after {
@@ -312,7 +312,7 @@ iframe {
 
 .input100:focus + .focus-input100::after {
   left: 23px;
-  color: #d41872;
+  color: #18d4a2;
 }
 
 .input100:focus + .focus-input100::before {
@@ -321,7 +321,7 @@ iframe {
 
 .has-val.input100 + .focus-input100::after {
   left: 23px;
-  color: #d41872;
+  color: #42fa59;
 }
 
 .has-val.input100 + .focus-input100::before {
@@ -349,7 +349,7 @@ iframe {
 .login100-form-btn {
   font-family: Ubuntu-Bold;
   font-size: 18px;
-  color:#ffffff24;
+  color:#111;
   line-height: 1.2;
   text-transform: uppercase;
 
@@ -366,10 +366,10 @@ iframe {
   border-radius: 21px;
 
   background: #ececec;
-  background: -webkit-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -o-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -moz-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: linear-gradient(left, #a445b2, #d41872, #fa4299);
+  background: -webkit-linear-gradient(left, #45b24e, #18c3d4, #42fa59);
+  background: -o-linear-gradient(left, #45b24e, #18c3d4, #42fa59);
+  background: -moz-linear-gradient(left, #45b24e, #18c3d4, #42fa59);
+  background: linear-gradient(left, #45b24e, #18c3d4, #42fa59);
   position: relative;
   z-index: 1;
 

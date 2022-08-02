@@ -14,7 +14,8 @@
             Cotiza tu cancha
         </div>
         <div class="form">
-            <form action=" {% url 'cotizar' %}" method="POST"> {% csrf_token %}
+            <form action=" {% url 'cotizar' %}" method="POST"> 
+                {% csrf_token %}
     
             <p>Asunto</p>
             <div class="input_field">

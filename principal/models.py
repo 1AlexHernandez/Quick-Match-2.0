@@ -89,25 +89,7 @@ class Cancelacion(models.Model):
         db_table = 'cancelacion' 
 
 
-class Cancha(models.Model):
-    idcancha = models.AutoField(db_column='idCancha', primary_key=True)  # Field name made lowercase.
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='canch')
-    ubicacion = models.CharField(max_length=45)
-    nombre = models.CharField(max_length=100,  )
-    descripcion = models.TextField()
-    image = models.ImageField(upload_to="Canchas/")
-    precio = models.FloatField()
-    estado = models.CharField(max_length=45)
-    canchacol = models.CharField(db_column='Canchacol', max_length=45)  # Field name made lowercase.
-    estado_idestado = models.ForeignKey('Estado', models.DO_NOTHING, db_column='Estado_idEstado', blank=True, null=True)  # Field name made lowercase.
-    reservas_id_reservas = models.ForeignKey('Reservas', models.DO_NOTHING, db_column='reservas_id_reservas', blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'cancha'
-
-    def __str__(self):
-        return self.nombre
 
 class Canchas(models.Model):
     idcancha = models.AutoField(db_column='idCancha', primary_key=True)  # Field name made lowercase.
@@ -115,9 +97,8 @@ class Canchas(models.Model):
     ubicacion = models.CharField(max_length=45)
     nombre = models.CharField(max_length=100,  )
     telefono = models.BigIntegerField()
-    correo_electronico = models.CharField(max_length=100, )
     descripcion = models.TextField()
-    image = models.ImageField(upload_to="Canchas/")
+    image = models.ImageField()
     precio = models.FloatField()
     estado = models.CharField(max_length=45)
     
@@ -205,21 +186,7 @@ class Horario(models.Model):
         db_table = 'horario'
 
 
-class Personas(models.Model):
-    idpersonas = models.AutoField(db_column='idPersonas', primary_key=True)  # Field name made lowercase.
-    nombre = models.CharField(max_length=45)
-    apellido = models.CharField(max_length=45)
-    direccion = models.CharField(max_length=45)
-    telefono = models.BigIntegerField(blank=True, null=True)
-    correo_electronico = models.CharField(max_length=100, blank=True, null=True)
-    edad = models.IntegerField(blank=True, null=True)
-    tipo_documento_idtipo_documento = models.ForeignKey('TipoDocumento', models.DO_NOTHING, db_column='tipo_documento_idtipo_documento', blank=True, null=True)
-    tipo_persona_idtipo_persona = models.ForeignKey('TipoPersona', models.DO_NOTHING, db_column='tipo_persona_idtipo_persona', blank=True, null=True)
-    reservas_id_reservas = models.ForeignKey('Reservas', models.DO_NOTHING, db_column='reservas_id_reservas', blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'personas'
 
 
 class Reservas(models.Model):
@@ -251,7 +218,7 @@ class TipoCancha(models.Model):
     descripcion = models.TextField(blank=True, null=True)
     num_jugadores = models.IntegerField(blank=True, null=True)
     tipo_canchacol = models.CharField(max_length=45, blank=True, null=True)
-    cancha_idcancha = models.ForeignKey(Cancha, models.DO_NOTHING, db_column='Cancha_idCancha', blank=True, null=True)  # Field name made lowercase.
+    cancha_idcancha = models.ForeignKey(Canchas, models.DO_NOTHING, db_column='Cancha_idCancha', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -278,7 +245,7 @@ class TipoPersona(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='yorny.jpeg')
+    image = models.ImageField(default='anonimo.jpg')
     descripcion = models.TextField()
 
 
@@ -287,7 +254,7 @@ class Profile(models.Model):
 
 class perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='yorny.jpeg')
+    image = models.ImageField(default='anonimo.jpg')
     descripcion = models.TextField()
 
 

@@ -42,11 +42,8 @@ def principal(request):
     }
     return render(request, 'principal/principal.html', context)
 
-def  registro(request):
-    return render(request,'login/registro.html') 
    
-
-def  registro(request):
+def  register(request):
     if request.method =='POST':
         form = registroForm(request.POST)
         if form.is_valid():
@@ -62,6 +59,8 @@ def  registro(request):
         form = registroForm()
   
     return render(request,'login/registro.html', {"form": form} )
+
+
 
 
 
@@ -95,8 +94,7 @@ def  profile(request):
 def  reserva(request):
     return render(request,'reserva/reserva.html')
 
-def  cotizacion(request):
-    return render(request,'principal/cotizacion.html')
+
  
 
 def agregar(request):
@@ -188,10 +186,32 @@ def  index(request):
 def  calendar(request):
     return render(request,'admin/calendar.html')
 
+def  cancelacion(request):
+    return render(request,'reserva/cancelacion.html')
+
 
 def  contact(request):
     return render(request,'admin/contact.html') 
 
 def  chat(request):
     return render(request,'admin/charts.html') 
+
+
+def vistas_usuario (request):
+    canchas = Cancha.objects.all()
+    context={
+        'canchas':canchas
+    }
+    return render (request, 'vista_usuario.html', context)
+
+def perfil_usuarios(request, username=None):
+    current_user = request.user
+    if username and username !=current_user.username:
+        user = User.objects.get(username=username)
+        canchas = user.canchas.all()
+
+    else:
+        canchas = current_user.canchas.all()
+        user = current_user
+    return render(request, 'principal/perfil.html', {'user':user, 'canchas':canchas})
 

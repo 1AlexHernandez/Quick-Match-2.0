@@ -28,20 +28,25 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assetstemplo/css/style.css' %}" rel="stylesheet">
-
+   
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet"> 
+   
+  
  
 </head>
 
 <body>
 
+
+ 
   <!-- ======= Top Bar ======= -->
   <div id="topbar" class="d-flex align-items-center fixed-top">
     <div class="container d-flex justify-content-center justify-content-md-between">
 
-      <div class="contact-info d-flex align-items-center">
+      <!--<div class="contact-info d-flex align-items-center">
         <i class="bi bi-phone d-flex align-items-center"><span>+57 3105826122</span></i>
         <i class="bi bi-clock d-flex align-items-center ms-4"><span> Lun-Domin: 8AM - 23PM</span></i>
-      </div>
+      </div>-->
 
       <div class="languages d-none d-md-flex align-items-center">
         <ul>
@@ -66,7 +71,8 @@
           <li><a class="nav-link scrollto" href="#about">Cancha</a></li>
        <!--     <li><a class="nav-link scrollto" href="#menu">Servicios</a></li> -->
       <!--       <li><a class="nav-link scrollto" href="#events">Fotos</a></li>-->
-          
+   
+
           <li><a class="nav-link scrollto" href="#contact">Ubicación</a></li>
           
           {% if request.user.is_authenticated %}
@@ -75,27 +81,33 @@
           </li>
           {% else %}
           <li class="nav-item">
-              <a href="{% url 'registro' %}" class="nav-link smoothScroll">registrarse</a>
+              <a href="{% url 'register' %}" class="nav-link smoothScroll">registrarse</a>
           </li>
           <li class="nav-item">
               <a href="{% url 'login1' %}" class="nav-link smoothScroll">login</a>
           </li>
+          
           {% endif %}
         </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
+       
+      
         
       </nav><!-- .navbar -->
       <a href="https://acortar.link/6VKMtC" class="book-a-table-btn scrollto d-none d-lg-flex">WhatsApp</a>
-      <a href="{% url 'reserva' %}" class="book-a-table-btn scrollto d-none d-lg-flex">Cotiza Tu Reserva</a>
+      <a href="{% url 'reserva' %}" class="book-a-table-btn scrollto d-none d-lg-flex">Reserva Tu Reserva</a>
       <a href="tel:+573135008240" class="book-a-table-btn scrollto d-none d-lg-flex">Llamar Ahora</a>
+      
+      
 
-      <ul class="social-icon ml-lg-3">
+      <!--<ul class="social-icon ml-lg-3">
         <li><a href="https://www.facebook.com/davidalexander.hernandezcampo/?viewas=100000686899395&show_switched_toast=0&show_invite_to_follow=0&show_switched_tooltip=0&show_podcast_settings=0&show_community_transition=0&show_community_review_changes=0&show_follower_visibility_disclosure=0" class="fa fa-facebook"></a></li>
         <li><a href="https://acortar.link/6VKMtC" class="fa fa-whatsapp"></a></li>
         <li><a href="#" class="fa fa-instagram"></a></li>
-    </ul>
+    </ul>-->
+    
 
     </div>
+    
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
@@ -467,7 +479,8 @@
     </div>
   </footer><!-- End Footer -->
 
-  <div id="preloader"></div>
+  <!--<div id="preloader"></div>-->
+  
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->

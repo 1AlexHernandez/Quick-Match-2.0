@@ -1,46 +1,75 @@
 {% extends 'principal/principal.html' %}
-
+{% load static %}
 
 {% block content %}
 {% load crispy_forms_tags %}
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="{% static 'editarperfil.css' %}">
+	
+   <title></title>
+</head>
+<body>
 <br><br>
 <div class="row">
     <div class="col-12 col-md-6 offset-md-3">
         <div class="card">
+            <div class="container rounded bg-white mt-5">
+                <div class="row">
+                    <div class="col-md-4 border-right">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><a href="{{ user.perfil.image.url }}"></a><img class="rounded-circle mt-5" src="{{ user.perfil.image.url }}" width="150px" height="150px"><span class="font-weight-bold"></span>{{ user.username }}<span class="text-black-50">{{ user.email }}</span></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="d-flex flex-row align-items-center back"><i class="fa fa-long-arrow-left mr-1 mb-1"></i>
+                                   
+                                    <h2>Editar perfil</h2>
+                                </div>
+                         <form class="col pr-0" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                            </div>
+
+                            <div class="input-wraper">
+                                <label for="user-name-id">Nombre de usuario:</label> <br> 
+                                {{ u_formulario.username }}
+                            </div>
+
+                            <div class="input-wraper">
+                                <label>Nombre:</label><br>
+                                {{ u_formulario.first_name }}
+                            </div>
+                        
+                            <div class="input-wraper">
+                                <label>Descripcion:</label> 
+                                {{ p_formulario.descripcion }}
+                            </div>
             
-            <div class="card-body">
-                <h2>Perfil</h2>
-                <hr>
-                <form class="col pr-0" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="input-wraper">
-                    <label>Nombre</label>
-                    {{ u_formulario.first_name }}
-                </div>
-                
-                <div class="input-wraper">
-                    <label for="user-name-id">Username</label>
-                    {{ u_formulario.username }}
-                </div>
-
-                <div class="input-wraper">
-                    <label>descripcion</label>
-                    {{ p_formulario.descripcion }}
-                </div>
-
-                <div class="input-wraper">
+                            <div class="input-wraper">
+                                <label>Editar imagen:</label> <br> 
+                                {{ p_formulario.image }} 
+                            </div> <br>
+                          
+                            <div class="d-felx justify-content-end">
+                                <input href="{% url 'perfil' %}"type="reset" value="Cancelar" class="button">
+                                 &nbsp;
+                                 <button class="button">Actualizar</button>
+            
+                            </div>
+                           
                     
-                    {{ p_formulario.image }}
+                        </form>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="d-felx justify-content-end">
-                <input href="{% url 'perfil' %}"type="reset" value="Cancelar" class="btn btn-secondary">
-                 &nbsp;
-                 <button class="btn btn-primary">Actualizar</button>
-                 <a href="{% url 'perfil' %}" class="btn btn-primary py-3 px-4">Cerrar</a>
-            </div>
-        </form>
+            </div>  
+           
         {{mensaje}}
     </div>
 </div>
@@ -53,3 +82,4 @@
 
 
 {% endblock %}
+

@@ -18,9 +18,10 @@
      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
      <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
      <link rel="stylesheet" href="{% static 'css/aos.css' %}">
-
+     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="{% static 'css/tooplate-gymso-style.css' %}">
+     
 
 </head>
 <body data-spy="scroll" data-target="#navbarNav" data-offset="50">
@@ -58,10 +59,10 @@
                         <a href="#schedule" class="nav-link smoothScroll">Horarios</a>
                     </li>
 
-                  
+                   
 
                     <li class="nav-item">
-                        <a href="#about" class="nav-link smoothScroll">creadores</a>
+                        <a href="#about" class="nav-link smoothScroll">Paginas Oficiales</a>
                     </li>  
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
@@ -70,23 +71,28 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                       <a href="{% url 'registro' %}" class="nav-link smoothScroll">registrarse</a>
+                       <a href="{% url 'register' %}" class="nav-link smoothScroll">registrarse</a>
 
                              
                     <li class="nav-item">
                         <a href="{% url 'login1' %}" class="nav-link smoothScroll">login</a>
                     </li>
+                    
                     {% endif %}
+                    <a href="{% url 'perfil' %}">
+                        <div class="profile-image">
+                            <img src="{{ user.perfil.image.url }}" alt="profile">
+                            <h5>{{user.username}}</h5>
+                        </div>
+                    </a>
+                    
 
-                   
-            
+                    <!--<a href="{% url 'perfil' %}"><img class="rounded-circle1" src="{{ user.perfil.image.url }}" width="70px" height="70px"> </div></a>
+                    <a  href="{% url 'perfil' %}">  <span class="button">{{user.username}}</a>-->
+                      
+             
                 </ul>
-
-                <ul class="social-icon ml-lg-3">
-                    <li><a href="https://www.facebook.com/" class="fa fa-facebook"></a></li>
-                    <li><a href="https://acortar.link/6VKMtC" class="fa fa-whatsapp"></a></li>
-                    <li><a href="https://www.instagram.com/" class="fa fa-instagram"></a></li>
-                </ul>
+               
             </div>
 
         </div>
@@ -134,17 +140,54 @@
                             <img src="{% static 'images/class/.jpg' %}" alt="" >
                          </li>
                                     </ul>
-                                </div>
+                                <!--/div>
+                                <div class="scroller">
+                                    <div class="scroller-item">
+                                        <img src="{% static 'assetsmonumental/img/logo2.png' %}" alt="">
+                                    </div>
+                                    <div class="scroller-item">
+                                        <img src="{% static 'images/gif - copia/football.gif' %}" alt="">
+                                    </div>
+                                    <div class="scroller-item">
+                                        <img src="{% static 'logo2.png' %}" alt="">
+                                    </div>
+                                    <div class="scroller-item">
+                                        <img src="{% static 'logo2.png' %}" alt="">
+                                    </div>
+                                    <div class="scroller-item">
+                                        <img src="{% static 'logo2.png' %}" alt="">
+                                    </div>
+                                    <div class="scroller-item">
+                                        <img src="{% static 'logo2.png' %}" alt="">
+                                    </div>
+                                    <div class="scroller-item">
+                                        <img src="{% static 'logo2.png' %}" alt="">
+                                    </div>  
+                                </div-->
 
-                                <a href="#class" class="btn custom-btn table-bordereddata-aos=" data-aos="fade-up" data-aos-delay="600">Reserva tu cancha</a>
+                                <!--a href="#class" class="btn custom-btn table-bordereddata-aos=" data-aos="fade-up" data-aos-delay="600">Reserva tu cancha</a>
 
-                                <a href="#feature" class="btn custom-btn table-bordereddata-aos="fade-up" data-aos-delay="700">Sobre Nosotros</a>
+                                <a href="#feature" class="btn custom-btn table-bordereddata-aos="fade-up=" data-aos-delay="700">Sobre Nosotros</a-->
+                                <button class="button">
+                                    <a href="#class">  <span class="button-inner">RESERVA TU CANCHA</a>
+                                        <i class="ri-upload-cloud-2-line"></i>
+                                </button>
+                                 <button class="button">
+                                    <a href="#feature">  <span class="button-inner">SOBRE NOSOTROS</a>
+                                            <i class="ri-upload-cloud-2-line"></i>   
+                                    </span>
+                            
+                                </button>
+
+
+                               
                                
                           </div>
+                          
                      </div>
                 </div>
            </div>
-           <img src="{% static 'images/gif - copia/futbol.gif' %}" alt="Funny image" class="class-price" > 
+        
  </section>
      <!-- CLASS -->
 
@@ -176,7 +219,9 @@
                                    
                                    <div class="caja">
                                     <img src="{% static 'images/gif - copia/football.gif' %}" alt="Funny image" class="class-price" > 
-                                    <div class="texto1">{{ cancha.precio}}</div>
+                                    <div class="texto1"><strong>Precio:</strong><br>{{ cancha.precio}}</div>
+                                   <a  href="{% url 'templo' cancha.pk %}" class="button">Ver Cancha</a>
+                                   
                                      </div>
                                 
 
@@ -192,22 +237,52 @@
 
     <section class="feature" id="feature">
         <div class="container">
-            <div class="row">   
+            <div class="row"> 
+            
+
 
                 <div class="d-flex flex-column justify-content-center ml-lg-auto mr-lg-5 col-lg-5 col-md-6 col-12">
-                    <h2 class="mb-3 text-white" data-aos="fade-up">¿WELCOME A QUICK MATCH?</h2>
+                    
+                    <h2 class="mb-3 text-white" data-aos="fade-up">BIENVENIDO A QUICK MATCH</h2>
 
-                    <h6 class="mb-4 text-white" data-aos="fade-up">DISFRUTA DE LA PASION QUE NOS HACE VIVIR.</h6>
+                    <h6 class="mb-4 text-white" data-aos="fade-up">ESTA ES UNA APLICACIÓN CREADA PARA LA VISUALIZACIÓN Y RESERVACIÓN DE LAS CANCHAS SINTETICAS UBICADAS EN LA CIUDAD DE POPAYAN.</h6>
 
 
                 </div>
 
                 <div class="mr-lg-auto mt-3 col-lg-4 col-md-6 col-12">
+                    <div class="scroller">
+                        <div class="scroller-item">
+                            <img src="{% static 'assetsmonumental/img/logo2.png' %}" alt="">
+                        </div>
+                        <div class="scroller-item">
+                            <img src="{% static 'images/gif - copia/baile.gif' %}" alt="">
+                        </div>
+                        <div class="scroller-item">
+                            <img src="{% static 'images/gif - copia/football.gif' %}" alt="">
+                        </div>
+                        <div class="scroller-item">
+                            <img src="{% static 'images/gif - copia/futbol.gif' %}" alt="">
+                        </div>
+                        <div class="scroller-item">
+                            <img src="{% static 'images/gif - copia/copa.gif' %}" alt="">
+                        </div>
+                        <div class="scroller-item">
+                            <img src="{% static 'images/gif - copia/game.gif' %}" alt="">
+                        </div>
+                        <div class="scroller-item">
+                            <img src="{% static 'images/gif - copia/mundial.gif' %}" alt="">
+                        </div> 
+                        <div class="scroller-item">
+                            <img src="{% static 'images/gif - copia/cristiano.gif' %}" alt="">
+                        </div> 
+                    </div>
+
                      <div class="about-working-hours">
                           <div>
 
                             <div class="col-lg-6 menu-item filter-salads">
-                                <img src="{% static 'assetsmonumental/img/fondo3.jpg' %}" width="300%" height="300%">
+                                <!--<img src="{% static 'assetsmonumental/img/fondo3.jpg' %}" width="300%" height="300%">-->
                           </div>
                      </div>
                 </div>
@@ -218,6 +293,7 @@
 
 
      <!-- ABOUT -->
+     
     <section class="about section" id="about">
     
                <div class="container">
@@ -225,58 +301,53 @@
                     <div class="row">
 
                            <div class="mt-lg-5 mb-lg-0 mb-4 col-lg-5 col-md-10 mx-auto col-12">
-            
-                               
-                              <p data-aos="fade-up" data-aos-delay="400">You are NOT allowed to redistribute this HTML template downloadable ZIP file on any template collection site. You are allowed to use this template for your personal or business websites.</p>
-
-                                <p data-aos="fade-up" data-aos-delay="500">If you have any question regarding <a rel="nofollow" href="https://www.tooplate.com/view/2119-gymso-fitness" target="_parent">Gymso Fitness HTML template</a>, you can <a rel="nofollow" href="https://www.tooplate.com/contact" target="_parent">contact Tooplate</a> immediately. Thank you.</p>
-
-                            </div>-->
                            
-                            <div class="ml-lg-auto col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-delay="700">
+                               
+                              <p data-aos="fade-up" data-aos-delay="400">SIGUENOS EN NUESTRAS PAGINAS OFICIALES.</p>
+
+                                <p data-aos="fade-up" data-aos-delay="500"><a rel="nofollow" href="https://www.tooplate.com/view/2119-gymso-fitness" target="_parent">QUICK MATCH TE SERA DE MUCHO AGRADO PARA TI.</a><a rel="nofollow" href="https://www.tooplate.com/contact" target="_parent"></a> DISFRUTA DE ESTA APLICACION JUNTO A NOSOTROS, QUICK MATCH TE AGRADECE.</p>
+
+                            </div>
+                           
+                          <!--  <div class="ml-lg-auto col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-delay="700">
                                 
                                 <div class="team-thumb">
-                                    <img src="{% static 'creadores/ryanqui.jpg' %}" class="img-fluid" alt="Jhorny Alfonso">
+                                    <img src="{% static 'images/facebook.png' %}" class="img-fluid" alt="Jhorny Alfonso">
 
                                     <div class="team-info d-flex flex-column">
 
-                                        <h3>Jhorny... Mamian </h3>
-                                        <span> Instructor de Androis</span>
-                                        <span> El bendito</span>
-
-                                        <ul class="social-icon mt-3">
-                                            <li><a href="#" class="fa fa-twitter"></a></li>
-                                            <li><a href="#" class="fa fa-instagram"></a></li>
-                                        </ul>
+                                        <a href="https://www.facebook.com/" class="btn custom-btn table-bordereddata-aos=" data-aos="fade-up" data-aos-delay="600">FACEBOOK</a>
+                                        <span> PAGINA OFICIAL</span>
                                     </div>
                                 </div>
                             </div>
-
+                            
 
                            
                           
-                            <div class="mr-lg-auto mt-5 mt-lg-0 mt-md-0 col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-delay="800">
+                           <div class="mr-lg-auto mt-5 mt-lg-0 mt-md-0 col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-delay="800">
                                 <div class="team-thumb">
-                                    <img src="{% static 'creadores/alex.jpg' %}" class="img-fluid" alt="Trainer">
+                                    <img src="{% static 'images/instagram.png' %}" class="img-fluid" alt="Trainer">
 
                                     <div class="team-info d-flex flex-column">
 
-                                        <h3>Alexander Hernández</h3>
-                                        <span>Un simple mortal.</span>
+                                        <a href="https://www.instagram.com/" class="btn custom-btn table-bordereddata-aos=" data-aos="fade-up" data-aos-delay="600">INSTAGRAM</a>
 
-                                        <ul class="social-icon mt-3">
-                                            <li><a href="#" class="fa fa-instagram"></a></li>
-                                            <li><a href="#" class="fa fa-facebook"></a></li>
-                                        </ul>
+                                        <span>PAGINA OFICIAL</span>
                                     </div>
                                 </div>
+                            </div-->  
+                          
+                            <div class="icons-wrapper">
+                                <a href="https://www.instagram.com/"><i  class="ri-instagram-line icon"></i></a>
+                                <a href="https://www.facebook.com/"> <i  class="ri-facebook-circle-line icon"></i></a>
+                                <a href="https://web.whatsapp.com"><i  class="ri-whatsapp-line icon"></i></a>
                             </div>
-
                     </div>
                </div>
      </section>
     
-
+    
     
 
      <!-- SCHEDULE -->
@@ -515,7 +586,7 @@
 
                             <textarea class="form-control" rows="5" name="txtMensaje" placeholder="Mensaje"></textarea> 
 
-                            <button type="submit" class="form-control" id="submit-button" name="submit">enviar Mensaje</button>
+                            <button type="submit" class="form-control" id="submit-button" name="submit">Enviar Mensaje</button>
                         </form>
                     
                     </div>
