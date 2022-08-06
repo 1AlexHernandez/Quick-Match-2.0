@@ -179,7 +179,7 @@ nav  ul  li ul li a:hover{
 	display: flex;
 	padding: 0;
 	width: 400%;
-  border-radius: 5%
+  border-radius: 5%;
 	animation: cambio 15s infinite alternate linear;
 }
 
@@ -189,20 +189,6 @@ nav  ul  li ul li a:hover{
   border-radius: 5%;
 }
 
-
-.slider ul {
-	display: flex;
-	padding: 0;
-	width: 400%;
-  border-radius: 5%;
-	animation: cambio 15s infinite alternate linear;
-}
-
-.slider li {
-	width: 100%;
-	list-style: none;
-  border-radius: 5%;
-}
 
 .slider img {
 	width: 90%;

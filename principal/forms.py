@@ -23,7 +23,7 @@ class registroForm(UserCreationForm):
 class CanchasForm(forms.ModelForm):
      class  Meta:
         model =  Canchas
-        fields = ['nombre',  'image',   'descripcion', 'ubicacion','precio']
+        fields = ['nombre',  'image', 'telefono', 'descripcion', 'ubicacion','precio']
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:

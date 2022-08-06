@@ -48,6 +48,7 @@ urlpatterns = [
     path('agregar/', agregar, name="agregar"),
     path('listar/', listar, name="listar"),
     path('perfil/', perfil, name='perfil'),
+    path('perfil_usuarios/<str:username>/', perfil_usuarios, name='perfil_usuarios'),
     #path('', index, name="index"),
     path('perfil/<str:username>/', perfil, name='perfil'),
     path('editar_Perfil/', editar_Perfil, name="editar_Perfil"),
@@ -59,6 +60,7 @@ urlpatterns = [
     #path('contact/', contact, name="contact")
     path('charts/', chat),
     path('vistas_usuario/', vistas_usuario, name='vistas_usuario'),
+    path('canchas_vista/' , canchas_vista, name='canchas_vista'),
 
 
 

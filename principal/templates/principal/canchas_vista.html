@@ -1,0 +1,43 @@
+{% extends 'principal/principal.html' %}
+
+{% load static %}
+<br>
+
+{% block content %}
+
+<article class="class section" id="class">
+  
+                {% for cancha in canchas %}
+               <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="400">
+                  
+                   <div class="class-thumb">
+                       <a href="{% url 'templo' cancha.pk %}"><img src="{{cancha.image.url}}" class="img-fluid" alt="Class"></a>
+
+                       <div class="class-info">
+                           <h3 class="mb-1">{{ cancha.nombre}}</h3>
+
+                             <span><strong>Ubicacion:</strong> {{ cancha.ubicacion}}</span> <br/> <hr>
+                             <span><strong>Telefono:</strong> {{ cancha.telefono}}</span>
+                             
+                             <div class="caja">
+                              <img src="{% static 'images/gif - copia/football.gif' %}" alt="Funny image" class="class-price" > 
+                              <div class="texto1"><strong>Precio:</strong><br>{{ cancha.precio}}</div>
+                             <a  href="{% url 'templo' cancha.pk %}" class="button">Ver Cancha</a>
+                             
+                               </div>
+                          
+
+                           <!--<p class="mt-3">{{ cancha.descripcion }}</p> -->
+                       </div>
+                   </div>
+                   
+               </div>
+               {% endfor %}
+       </div>  
+  </div>
+</article>
+
+
+  {% endblock %}
+
+ 

@@ -250,16 +250,16 @@ class Profile(models.Model):
 
 
     def  __str__(self):
-         return f'Perfil de {self.user.username}'
+         return f'alex {self.user.username}'
 
-class perfil(models.Model):
+class perfil(models.Model): #ESTE  ESTA EN FUNCIONAMIENTO
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='anonimo.jpg')
     descripcion = models.TextField()
 
 
     def  __str__(self):
-         return f'Perfil de {self.user.username}'
+         return f'Usuario {self.user.username}'
     
 
 class post(models.Model):

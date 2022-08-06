@@ -22,7 +22,7 @@ from .forms import *
 from django import forms
 from django.contrib.auth.models import User 
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate #par autentificar el usuario 
 from django.contrib.auth.decorators import login_required
 
 
@@ -45,13 +45,13 @@ def principal(request):
    
 def  register(request):
     if request.method =='POST':
-        form = registroForm(request.POST)
+        form = registroForm(data=Drequest.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data['username']
+            username = form.cleaned_data['username']  #choices proveidas= un campo de un formulario cuyo atributo utiliza unas opciones provadas en el modelo
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
-            login(request, user)
+            login(request, user) # usuario ya logueado
             messages.success(request, 'Bienvenido a QUICK MATCH')
             return redirect('principal')
 
@@ -122,7 +122,7 @@ def agregar(request):
 def listar(request):
     cancha = Canchas.objects.all()
     context ={             # diccionario de datos, representa toda la informacion que va hacer enviada al template
-        'cancha': cancha
+        'cancha': cancha   #para enviar la consulta canchas lo envio  a través de un parametro contexto 
     }
     return render(request, 'crud/listar.html', context)
 
@@ -138,6 +138,7 @@ def modificar_cancha(request,pk):
         formulario = CanchasForm(data=request.POST, instance=cancha, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
+            messages.success(request, 'cancha modificada con exito ')
             return redirect(to="perfil")
         data["form"] = formulario    
     return render(request,  'crud/modificar.html', data)
@@ -154,7 +155,7 @@ def perfil(request, username=None):
     current_user = request.user
     if username and username !=current_user.username:
         user = User.objects.get(username=username)
-        canchas = user.canchas.all()
+        canchas = user.canchas.all() #llama los modelos
 
     else:
         canchas = current_user.canchas.all()
@@ -164,7 +165,7 @@ def perfil(request, username=None):
 
 def editar_Perfil(request):
     if request.method == 'POST':
-        u_formulario = UserUpdateForm(request.POST, instance=request.user)
+        u_formulario = UserUpdateForm(request.POST, instance=request.user) #solitud de recuperacion de usuario
         p_formulario = PerfilUpdateForm(request.POST, request.FILES, instance=request.user.perfil)
         if u_formulario.is_valid() and p_formulario.is_valid():
             u_formulario.save()
@@ -198,11 +199,23 @@ def  chat(request):
 
 
 def vistas_usuario (request):
-    canchas = Cancha.objects.all()
+    canchas = Canchas.objects.all()
     context={
         'canchas':canchas
     }
     return render (request, 'vista_usuario.html', context)
+
+def canchas_vista (request):
+    canchas = Canchas.objects.all()
+
+    context = {
+        'canchas': canchas,
+
+    }
+    return render (request, 'principal/canchas_vista.html', context)
+
+
+
 
 def perfil_usuarios(request, username=None):
     current_user = request.user
@@ -213,5 +226,5 @@ def perfil_usuarios(request, username=None):
     else:
         canchas = current_user.canchas.all()
         user = current_user
-    return render(request, 'principal/perfil.html', {'user':user, 'canchas':canchas})
+    return render(request, 'principal/perfil_usu.html', {'user':user, 'canchas':canchas})
 
