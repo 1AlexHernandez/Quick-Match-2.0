@@ -13,8 +13,10 @@
    <link rel="stylesheet" href="{% static 'perfil.css' %}">
 	
    <title></title>
+  
 </head>
 <body>
+   
    <br>
    <br>
    <br>
@@ -26,29 +28,36 @@
    <div class="col-md-8">
        <!-- Column -->
        <div class="card"> <img class="card-img-top" src="{% static 'images/gif - copia/balon.gif' %}" alt="Card image cap">
+        
            <div class="card-body little-profile text-center">
+           
+                  
                <div class="pro-img"> <a href="{{ user.perfil.image.url }}"><img src="{{ user.perfil.image.url }}" alt="user"></a></div>
-               <p>Usuario:</p>
-               <h3 class="m-b-0">{{ user.username }}</h3> <br>
+               <h5 class="m-b-0">{{ user.username }}</h5> 
                
-              <!----> <p>Descripción:</p>{{ user.perfil.descripcion }} <hr>
+              <!---->{{ user.perfil.descripcion }} <hr>
                    <h3><a href="{% url 'editar_Perfil' %}" class="button">Editar Perfil</a></h3>
+                  
+                 
                   <!-- <div class="col-lg-4 col-md-4 m-t-20">
                        <h3 class="m-b-0 font-light">434K</h3><small>Followers</small>
                    </div>
                    <div class="col-lg-4 col-md-4 m-t-20">
                        <h3 class="m-b-0 font-light">5454</h3><small>Following</small>
                    </div>-->
-                   {{ block.super }}
+                  
                </div>
+           
            </div>
+           
        </div>
+      
    </div>
-</div>
-
-
    
+</div>
+		   
 </body>
+
 </html>
 
 {% endblock %}

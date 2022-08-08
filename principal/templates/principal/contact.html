@@ -1,4 +1,9 @@
+{% extends 'principal/principal.html' %}
 {% load static %}
+
+{% block content %} 
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,21 +16,22 @@
 <body>
     <div class="wrapper">
         <div class="title">
+            
             Cotiza tu cancha
         </div>
         <div class="form">
-            <form action=" {% url 'cotizar' %}" method="POST"> 
+            <form action="/contact/" method="POST"> 
                 {% csrf_token %}
     
             <p>Asunto</p>
             <div class="input_field">
-                <input type="text" class="input" placeholder="escribe tu asunto">
+                <input type="text" class="input" name="asunto">
             </div>
             <p>Email</p>
             <div class="input_field">
-                <input type="email" class="input" placeholder="escribe tu Email">
+                <input type="email" class="input" name="email">
             </div>
-            <textarea class="form-control" rows="10"  cols="57" style="resize: none;" name="txtMensaje" placeholder="Mensaje"></textarea> 
+            <textarea class="form-control" rows="10"  cols="57" style="resize: none;" name="mensaje" placeholder="Mensaje"></textarea> 
             
             <div class="input_field terms">
                 <label class="check">
@@ -42,3 +48,4 @@
     </div>
 </body>
 </html>
+{% endblock %}

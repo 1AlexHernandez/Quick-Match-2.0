@@ -32,7 +32,7 @@
                         <h2>Agregar un cancha</h2>
                         <hr/>
                         <form action="" method="post" enctype="multipart/form-data">
-                    
+                    <!--evitar ataques maliciosos-->
                         {% csrf_token %}
                         {{ formulario | crispy }}
                         <div class="d-felx justify-content-end">

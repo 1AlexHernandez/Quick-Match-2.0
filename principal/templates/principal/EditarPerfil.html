@@ -38,28 +38,28 @@
 
                             <div class="input-wraper">
                                 <label for="user-name-id">Nombre de usuario:</label> <br> 
-                                {{ u_formulario.username }}
+                                {{ u_form.username }}
                             </div>
 
                             <div class="input-wraper">
                                 <label>Nombre:</label><br>
-                                {{ u_formulario.first_name }}
+                                {{ u_form.first_name }}
                             </div>
                         
                             <div class="input-wraper">
                                 <label>Descripcion:</label> 
-                                {{ p_formulario.descripcion }}
+                                {{ p_form.descripcion }}
                             </div>
             
                             <div class="input-wraper">
                                 <label>Editar imagen:</label> <br> 
-                                {{ p_formulario.image }} 
+                                {{ p_form.image }} 
                             </div> <br>
                           
                             <div class="d-felx justify-content-end">
-                                <input href="{% url 'perfil' %}"type="reset" value="Cancelar" class="button">
+                                <input type="reset" value="Cancelar" class="button">
                                  &nbsp;
-                                 <button class="button">Actualizar</button>
+                                 <button  class="button">Actualizar</button>
             
                             </div>
                            

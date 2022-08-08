@@ -30,7 +30,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import  include
 from principal.views import *
-from principal.views import modificar_cancha, eliminar_cancha
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -42,7 +41,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(template_name='login/login1.html'), name="logout"),
     path('register/', register, name="register"),
     path('reserva/', reserva, name="reserva"),
-    path('cotizacion/', cotizacion, name="cotizar"),
+    path('contact/', contact, name="contact"),
      path('cancelacion/', cancelacion, name="cancelacion"),
     path('templo/<int:pk>/', templo, name="templo"),
     path('agregar/', agregar, name="agregar"),
@@ -52,8 +51,8 @@ urlpatterns = [
     #path('', index, name="index"),
     path('perfil/<str:username>/', perfil, name='perfil'),
     path('editar_Perfil/', editar_Perfil, name="editar_Perfil"),
-    path('modificar_cancha/<int:pk>', modificar_cancha, name="modificar_cancha"),
-    path('eliminar_cancha/<int:pk>', eliminar_cancha, name="eliminar_cancha"),
+    path('modificar_cancha/<int:pk>', modificar_cancha, name="modificar_cancha"), #importamos
+    path('eliminar_cancha/<int:pk>', eliminar_cancha, name="eliminar_cancha"), #importamos
     path('profile/', profile),
     #path('iindex/', panel),
     path('calendar/', calendar, name="calendar"),
@@ -61,7 +60,7 @@ urlpatterns = [
     path('charts/', chat),
     path('vistas_usuario/', vistas_usuario, name='vistas_usuario'),
     path('canchas_vista/' , canchas_vista, name='canchas_vista'),
-
+    #path('vercancha/',vercancha, name='vercancha'),
 
 
 
@@ -83,7 +82,7 @@ urlpatterns = [
     
 
 
-urlpatterns += staticfiles_urlpatterns()
+
 
 
 if settings.DEBUG:
