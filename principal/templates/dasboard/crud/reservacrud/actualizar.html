@@ -1,0 +1,109 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load bootstrap4 %}
+        {% load widget_tweaks %}  
+         {% if messages %}
+            <ul class="messages list-group mb-3">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+          {% endif %}
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Tables - SB Admin</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        {% include "dasboard/nav.html" %}
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                  <div class="container-fluid px-4">
+                        <header class="bg-dark1">
+                          <div class="container px-1 px-lg-1 my-1">
+                              <div class="text-center text-black">
+                                  <h1 class="display-6 fw-bolder">Crear actividad</h1>
+                                  <p class="lead fw-normal text-grey-50 mb-0">Creación de  actividades</p>
+                              </div>
+                          </div>
+                        </header>
+                        <form method="post" enctype="multipart/form-data">
+        
+                            {# Pasamos el 'csrf_token' de seguridad para poder crear un nuevo registro #}
+                            {% csrf_token %}
+                            
+                            <!-- {{ form.as_p }} -->
+                            <div class="form-group">
+                              <label for="user" class="txt_negrita">Usuario</label>
+                              {{ form.user|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                            </div>
+                            <div class="form-group">
+                              <label for="ubicacion" class="txt_negrita">Ubicacion</label>
+                              {{ form.ubicacion|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                            </div>
+                            <div class="form-group">
+                              <label for="nombre" class="txt_negrita">Nombre</label>
+                              {{ form.nombre|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto --> 
+                            </div>
+                            <div class="form-group">
+                              <label for="telefono" class="txt_negrita">Telefono</label>
+                              {{ form.telefono|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                            </div>
+                            <div class="form-group">
+                              <label for="descripcion" class="txt_negrita">Descripcion</label>
+                              {{ form.descripcion|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                            </div>
+
+                             <div class="form-group">
+                              <label for="image" class="txt_negrita">Imagen</label>
+                              {{ form.image|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                            </div>
+
+                             <div class="form-group">
+                              <label for="precio" class="txt_negrita">Precio</label>
+                              {{ form.precio|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                            </div>
+                             <div class="form-group">
+                              <label for="estado" class="txt_negrita">Estado</label>
+                              {{ form.estado|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                            </div>
+                            
+                            
+                            
+                            <button type="submit" class="btn btn-primary">Aceptar</button> 
+                                   &nbsp;
+                            <a href="./" type="submit" class="btn btn-primary">Cancelar</a>
+                          
+                        </form>
+                     </div>                            
+              </main>
+            </div> 
+            <footer class="py-4 bg-light mt-auto">
+              <div class="container-fluid px-4">
+                  <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                      <div>
+                        <a href="#">Privacy Policy</a>
+                           &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                      </div>
+                    </div>
+              </div>
+          </footer>
+        </div>
+      </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/scripts.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="{% static 'js/datatables-simple-demo.js'%}"></script>
+    </body>
+</html>

@@ -92,7 +92,7 @@ class Cancelacion(models.Model):
 
 
 class Canchas(models.Model):
-    idcancha = models.AutoField(db_column='idCancha', primary_key=True)  # Field name made lowercase.
+    idCancha = models.AutoField(db_column='idCancha', primary_key=True)  # Field name made lowercase.
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='canchas')
     ubicacion = models.CharField(max_length=45)
     nombre = models.CharField(max_length=100,  )
@@ -101,6 +101,7 @@ class Canchas(models.Model):
     image = models.ImageField()
     precio = models.FloatField()
     estado = models.CharField(max_length=45)
+    
     
     def __str__(self):
         return self.nombre
@@ -194,6 +195,8 @@ class Reservas(models.Model):
     fecha_reserva = models.DateField(blank=True, null=True)
     fecha_solicitud = models.DateField(blank=True, null=True)
     cantidad_personas = models.CharField(max_length=45)
+    usuario = models.CharField(max_length=100)
+
 
     class Meta:
         managed = False

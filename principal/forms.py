@@ -3,7 +3,7 @@ from dataclasses import field
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Canchas, perfil, AuthUser
+from .models import Canchas, perfil, AuthUser,Reservas
 
 class registroForm(UserCreationForm):
     class Meta:
@@ -24,6 +24,12 @@ class CanchasForm(forms.ModelForm):
      class  Meta:
         model =  Canchas
         fields = ['nombre',  'image', 'telefono', 'descripcion', 'ubicacion','precio']
+
+
+class ReservasForm(forms.ModelForm):
+     class  Meta:
+        model =  Reservas
+        fields = ['fecha_reserva', 'fecha_solicitud','usuario', 'cantidad_personas']
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:

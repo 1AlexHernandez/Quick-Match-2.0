@@ -25,8 +25,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate #para autentificar(registrar) el usuario 
 from django.contrib.auth.decorators import login_required
 
-
+def  dasboard(request):
+    return render(request,'dasboard/index.html')
 # Create your views here.
+
 def  templo(request ,pk ):
     canchas = Canchas.objects.filter(pk=pk) #estamos haciendo una consulta de mejor facilidad que filtre los valores por su llave primaria
     context = {     # diccionario de datos, representa toda la informacion que va hacer enviada al template
@@ -119,7 +121,30 @@ def agregar(request):
         formulario = CanchasForm()
      
       
-    return render(request, 'crud/agregar.html',{'formulario': formulario}) 
+    return render(request, 'crud/agregar.html',{'formulario': formulario})
+    
+
+def reserva(request):
+
+    #data = {
+    #    'form': CanchaForm()
+    #}
+    current_user = get_object_or_404(User, pk=request.user.pk) #para lanzar una excepción de tipo Http404 si el registro no se encuentra.
+    if request.method == 'POST': #si la peticion viene por un metodo de enviar
+            formulario = ReservasForm(data=request.POST, files=request.FILES)
+            if formulario.is_valid():
+                cancha = formulario.save(commit=False) #devolverá un objeto que aún no se ha guardado en la base de datos 
+                cancha.user = current_user #para saber quien agrego la cancha
+                cancha.save()
+                messages.success(request, 'Agregada cancha con exito')
+            #data['mensaje'] = 'Su cancha fue guardada exitosamente'
+            return redirect ('principal')
+    else: #se enviara nuevamente el formulario
+            #data["form"] = formulario
+        formulario = ReservasForm()
+     
+      
+    return render(request, 'reserva/reserva.html',{'formulario': formulario})     
 
 def listar(request):
     cancha = Canchas.objects.all()
@@ -229,3 +254,82 @@ def perfil_usuarios(request, username=None):
         user = current_user
     return render(request, 'principal/perfil_usu.html', {'user':user, 'canchas':canchas})
 
+  #-----------------------------------cancha-----------------------------------------------------#
+
+class ListadoCanchas(ListView):
+    template_name = '/templates/dasboard/crud/index.html'
+    model = Canchas
+    paginate_by = 10
+    context_object_name = 'object_list'
+    
+class CanchasCrear(SuccessMessageMixin, CreateView):
+    model =Canchas
+    form = Canchas
+    fields = "__all__"
+    success_message ='Cancha creada correctamente'
+     
+    def get_success_url(self):        
+        return reverse('principal:leer') # Redireccionamos a la vista principal 'leer'
+
+class CanchasDetalle (DetailView):
+    model =Canchas
+
+class  CanchasActualizar(SuccessMessageMixin,UpdateView):
+    model =  Canchas
+    form = Canchas
+    fields = "__all__" # Le decimos a Django que muestre todos los campos de la tabla 'postres' de nuestra Base de Datos 
+    success_message = 'Cancha Actualizada Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+
+    def get_success_url(self):               
+        return reverse('principal:leer') # Redireccionamos a la vista principal 'leer'
+class CanchasEliminar(SuccessMessageMixin, DeleteView): 
+    model = Canchas
+    form = Canchas
+    fields = "__all__"     
+ 
+    # Redireccionamos a la página principal luego de eliminar un registro o postre
+    def get_success_url(self): 
+        success_message = 'Municipio Eliminado Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+        messages.success (self.request, (success_message))       
+        return reverse('principal:leer' )# Redireccionamos a la vista principal 'leer'
+    
+
+     #-----------------------------------Reservas-----------------------------------------------------#
+
+class ListadoReservas(ListView):
+    template_name = '/templates/dasboard/crud/reservacrud/index.html'
+    model = Reservas
+    paginate_by = 10
+    context_object_name = 'object_list'
+    
+class ReservasCrear(SuccessMessageMixin, CreateView):
+    model =Reservas
+    form = Reservas
+    fields = "__all__"
+    success_message ='Cancha creada correctamente'
+     
+    def get_success_url(self):        
+        return reverse('principal:leer') # Redireccionamos a la vista principal 'leer'
+
+class ReservasDetalle (DetailView):
+    model =Reservas
+
+class  ReservasActualizar(SuccessMessageMixin,UpdateView):
+    model = Reservas
+    form = Reservas
+    fields = "__all__" # Le decimos a Django que muestre todos los campos de la tabla 'postres' de nuestra Base de Datos 
+    success_message = 'Cancha Actualizada Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+
+    def get_success_url(self):               
+        return reverse('principal:leer') # Redireccionamos a la vista principal 'leer'
+class ReservasEliminar(SuccessMessageMixin, DeleteView): 
+    model = Reservas
+    form = Reservas
+    fields = "__all__"     
+ 
+    # Redireccionamos a la página principal luego de eliminar un registro o postre
+    def get_success_url(self): 
+        success_message = 'Municipio Eliminado Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+        messages.success (self.request, (success_message))       
+        return reverse('principal:leer' )# Redireccionamos a la vista principal 'leer'
+    
