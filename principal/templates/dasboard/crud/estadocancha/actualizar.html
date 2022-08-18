@@ -31,8 +31,8 @@
                         <header class="bg-dark1">
                           <div class="container px-1 px-lg-1 my-1">
                               <div class="text-center text-black">
-                                  <h1 class="display-6 fw-bolder">Crear Reserva</h1>
-                                 
+                                  <h1 class="display-6 fw-bolder">Estado Cancha</h1>
+                                  
                               </div>
                           </div>
                         </header>
@@ -43,22 +43,24 @@
                             
                             <!-- {{ form.as_p }} -->
                             <div class="form-group">
-                              <label for="fecha_reserva" class="txt_negrita">fecha_reserva</label>
-                              {{ form.fecha_reserva|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                              <label for="disponible" class="txt_negrita">disponible</label>
+                              {{ form.disponible|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
                             </div>
                             <div class="form-group">
-                              <label for="fecha_solicitud" class="txt_negrita">fecha_solicitud</label>
-                              {{ form.fecha_solicitud|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                              <label for="fuera_de_servicio" class="txt_negrita">fuera_de_servicio</label>
+                              {{ form.fuera_de_servicio|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
                             </div>
+
                             <div class="form-group">
-                              <label for="usuario" class="txt_negrita">usuario</label>
-                              {{ form.usuario|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto --> 
+                              <label for="reservada" class="txt_negrita">reservada</label>
+                              {{ form.reservada|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
                             </div>
+                           <!-- <div class="form-group">
+                              <label for="asignacion " class="txt_negrita">asignacion </label>
+                              {{ form.asignacion |add_class:"form-control" }} Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                 
                             
-                            <div class="form-group">
-                              <label for="cantidad_personas" class="txt_negrita">cantidad_personas</label>
-                              {{ form.cantidad_personas|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
-                            </div>
+                            
                             
                             <button type="submit" class="btn btn-primary">Aceptar</button> 
                                    &nbsp;
@@ -73,7 +75,9 @@
                   <div class="d-flex align-items-center justify-content-between small">
                     <div class="text-muted">Copyright &copy; Your Website 2022</div>
                       <div>
-                        
+                        <a href="#">Privacy Policy</a>
+                           &middot;
+                        <a href="#">Terms &amp; Conditions</a>
                       </div>
                     </div>
               </div>

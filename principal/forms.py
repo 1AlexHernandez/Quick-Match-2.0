@@ -26,10 +26,10 @@ class CanchasForm(forms.ModelForm):
         fields = ['nombre',  'image', 'telefono', 'descripcion', 'ubicacion','precio']
 
 
-class ReservasForm(forms.ModelForm):
+class Reservas1Form(forms.ModelForm):
      class  Meta:
         model =  Reservas
-        fields = ['fecha_reserva', 'fecha_solicitud','usuario', 'cantidad_personas']
+        fields = ['fecha_reserva', 'fecha_solicitud', 'cantidad_personas']
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:

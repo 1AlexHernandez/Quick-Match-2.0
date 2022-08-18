@@ -41,12 +41,12 @@
                         <td>
                    
                           <!-- Usaremos un formulario que realizará la tarea de eliminar un registro o actividad desde la misma tabla HTML -->                        
-                          <form method="POST" action="eliminar/{{post.id_reservas}}">
+                          <form method="POST" action="eliminar/{{post.idhorario}}">
                             {% csrf_token %}
                             <div class="btn-group">
                               
-                              <a href="detalle/{{post.id_reservas}}" title="Ver" type="button" class="btn btn-success">Ver </a>
-                              <a href="editar/{{post.id_reservas}}" title="Editar" type="button" class="btn btn-primary">Editar </a>
+                              <a href="detalle/{{post.idhorario}}" title="Ver" type="button" class="btn btn-success">Ver </a>
+                              <a href="editar/{{post.idhorario}}" title="Editar" type="button" class="btn btn-primary">Editar </a>
                               
                               <!-- Este botón ejecuta el formulario para eliminar un registro o actividad en la Base de datos -->
                               <button class="btn btn-danger" onclick="return eliminar();" type="submit">

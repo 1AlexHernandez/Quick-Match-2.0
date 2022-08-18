@@ -37,6 +37,7 @@ from django.conf.urls import  include
 from principal.views import *
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from . import views
 
 
 urlpatterns = [
@@ -46,9 +47,9 @@ urlpatterns = [
     path('login1/', LoginView.as_view(template_name='login/login1.html'), name="login1"),
     path('logout/', LogoutView.as_view(template_name='login/login1.html'), name="logout"),
     path('register/', register, name="register"),
-    path('reserva/', reserva, name="reserva"),
+    path('Reservas1/', Reservas1, name="reservas1"),
     path('contact/', contact, name="contact"),
-     path('cancelacion/', cancelacion, name="cancelacion"),
+    path('cancelacion/', cancelacion, name="cancelacion"),
     path('templo/<int:pk>/', templo, name="templo"),
     path('agregar/', agregar, name="agregar"),
     path('listar/', listar, name="listar"),
@@ -66,44 +67,74 @@ urlpatterns = [
     path('charts/', chat),
     path('vistas_usuario/', vistas_usuario, name='vistas_usuario'),
     path('canchas_vista/' , canchas_vista, name='canchas_vista'),
+    path('reservas_usu/', reservas_usu, name='reservas_usu' ),
     #path('vercancha/',vercancha, name='vercancha'),
     
     
  #--------------------------------------------URL CANCHAS ------------------------------------------------------------------------#
-    path('Canchas/', ListadoCanchas.as_view(template_name = "dasboard/crud/index.html"), name='leer'),
+    path('Canchas/', ListadoCanchas.as_view(template_name = "dasboard/crud/canchas/index.html"), name='leer'),
  
     # La ruta 'detalles' en donde mostraremos una página con los detalles de un Categoria o registro 
-    path('Canchas/detalle/<int:pk>', CanchasDetalle.as_view(template_name = "dasboard/crud/detalle.html"), name='detalles'),
+    path('Canchas/detalle/<int:pk>', CanchasDetalle.as_view(template_name = "dasboard/crud/canchas/detalle.html"), name='detalles'),
  
     # La ruta 'crear' en donde mostraremos un formulario para crear un nuevo Categoria o registro  
-    path('Canchas/crear', CanchasCrear.as_view(template_name = "dasboard/crud/crear.html"), name='crear'),
+    path('Canchas/crear', CanchasCrear.as_view(template_name = "dasboard/crud/canchas/crear.html"), name='crear'),
  
     # La ruta 'actualizar' en donde mostraremos un formulario para actualizar un categoriao registro de la Base de Datos 
-    path('Canchas/editar/<int:pk>', CanchasActualizar.as_view(template_name = "dasboard/crud/actualizar.html"), name='actualizar'), 
+    path('Canchas/editar/<int:pk>', CanchasActualizar.as_view(template_name = "dasboard/crud/canchas/actualizar.html"), name='actualizar'), 
  
     # La ruta 'eliminar' que usaremos para eliminar un Categoria o registro de la Base de Datos 
-    path('Canchas/eliminar/<int:pk>', CanchasEliminar.as_view(), name='dasboard/crud/eliminar.html'),  
+    path('Canchas/eliminar/<int:pk>', CanchasEliminar.as_view(), name='dasboard/crud/canchas/eliminar.html'),  
     
     #--------------------------------------------URL Reservas ------------------------------------------------------------------------#
-    path('Canchas/', ListadoReservas.as_view(template_name = "dasboard/crud/index.html"), name='leer1'),
+    path('Reservas/', ListadoReservas.as_view(template_name = "dasboard/crud/reservacrud/index.html"), name='leer1'),
  
     # La ruta 'detalles' en donde mostraremos una página con los detalles de un Categoria o registro 
-    path('Canchas/detalle/<int:pk>', ReservasDetalle.as_view(template_name = "dasboard/crud/detalle.html"), name='detalles1'),
+    path('Reservas/detalle/<int:pk>', ReservasDetalle.as_view(template_name = "dasboard/crud/reservacrud/detalle.html"), name='detalles1'),
  
     # La ruta 'crear' en donde mostraremos un formulario para crear un nuevo Categoria o registro  
-    path('Canchas/crear', ReservasCrear.as_view(template_name = "dasboard/crud/crear.html"), name='crear1'),
+    path('Reservas/crear', ReservasCrear.as_view(template_name = "dasboard/crud/reservacrud/crear.html"), name='crear1'),
  
     # La ruta 'actualizar' en donde mostraremos un formulario para actualizar un categoriao registro de la Base de Datos 
-    path('Canchas/editar/<int:pk>', ReservasActualizar.as_view(template_name = "dasboard/crud/actualizar.html"), name='actualizar1'), 
+    path('Reservas/editar/<int:pk>', ReservasActualizar.as_view(template_name = "dasboard/crud/reservacrud/actualizar.html"), name='actualizar1'), 
  
     # La ruta 'eliminar' que usaremos para eliminar un Categoria o registro de la Base de Datos 
-    path('Canchas/eliminar/<int:pk>', ReservasEliminar.as_view(), name='dasboard/crud/eliminar.html'),  
+    path('Reservas/eliminar/<int:pk>', ReservasEliminar.as_view(), name='dasboard/crud/reservacrud/eliminar.html'),  
 
+     #--------------------------------------------URL Horario ------------------------------------------------------------------------#
+    path('Horario/', ListadoHorario.as_view(template_name = "dasboard/crud/horarios/index.html"), name='leer2'),
+ 
+    # La ruta 'detalles' en donde mostraremos una página con los detalles de un Categoria o registro 
+    path('Horario/detalle/<int:pk>', HorarioDetalle.as_view(template_name = "dasboard/crud/horarios/detalle.html"), name='detalles2'),
+ 
+    # La ruta 'crear' en donde mostraremos un formulario para crear un nuevo Categoria o registro  
+    path('Horario/crear', HorarioCrear.as_view(template_name = "dasboard/crud/horarios/crear.html"), name='crear2'),
+ 
+    # La ruta 'actualizar' en donde mostraremos un formulario para actualizar un categoriao registro de la Base de Datos 
+    path('Horario/editar/<int:pk>', HorarioActualizar.as_view(template_name = "dasboard/crud/horarios/actualizar.html"), name='actualizar2'), 
+ 
+    # La ruta 'eliminar' que usaremos para eliminar un Categoria o registro de la Base de Datos 
+    path('Horario/eliminar/<int:pk>', HorarioEliminar.as_view(), name='dasboard/crud/horarios/eliminar.html'),  
 
+  #--------------------------------------------URL Estado de la cancha ------------------------------------------------------------------------#
+    path('Estado/', ListadoEstado.as_view(template_name = "dasboard/crud/estadocancha/index.html"), name='leer3'),
+ 
+    # La ruta 'detalles' en donde mostraremos una página con los detalles de un Categoria o registro 
+    path('Estado/detalle/<int:pk>', EstadoDetalle.as_view(template_name = "dasboard/crud/estadocancha/detalle.html"), name='detalles3'),
+ 
+    # La ruta 'crear' en donde mostraremos un formulario para crear un nuevo Categoria o registro  
+    path('Estado/crear', EstadoCrear.as_view(template_name = "dasboard/crud/estadocancha/crear.html"), name='crear3'),
+ 
+    # La ruta 'actualizar' en donde mostraremos un formulario para actualizar un categoriao registro de la Base de Datos 
+    path('Estado/editar/<int:pk>', EstadoActualizar.as_view(template_name = "dasboard/crud/estadocancha/actualizar.html"), name='actualizar3'), 
+ 
+    # La ruta 'eliminar' que usaremos para eliminar un Categoria o registro de la Base de Datos 
+    path('Estado/eliminar/<int:pk>', EstadoEliminar.as_view(), name='dasboard/crud/estadocancha/eliminar.html'),  
 
+    
+    path('reserva/', ListadoReservascliente.as_view(template_name = "crud/reservas.html"), name='reserva'),
 
-
-
+    
 
     #crud import
     #path('formulario/',formularioContacto ), 

@@ -16,7 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
+        <title>Quick Go Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -27,64 +27,84 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Tabla</h1>
+                        <h1 class="mt-4">Tablas</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                             <li class="breadcrumb-item active">Tablas</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                
+                                Esta plataforma es exclusiva para los administradores.
+                               
                                 
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Tabla De Datos
+                               Tabla De Datos
                             </div>
                             <div class="card-body">
-                                
+                                {% bootstrap_javascript jquery='full' %} 
+                                <div align="left" class="btn_crear mb-3">
+                                    <a href="crear" type="button" class="btn btn-primary">Crear</a>
+                                </div>
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                                <th>Id</th>
-                                                <th>fecha reserva</th>
-                                                <th>fecha solicitud</th>
-                                                <th>usuario</th>
-                                                <th>cantidad personas</th>
+                                            <th>Id</th>
+                                                <th>Nombre</th>
+                                                <th>Ubicacion</th>
+                                                <th>Descripcion</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                                 <th>Id</th>
-                                                <th>fecha reserva</th>
-                                                <th>fecha solicitud</th>
-                                                <th>usuario</th>
-                                                <th>cantidad personas</th>
+                                                <th>Nombre</th>
+                                                <th>Ubicacion</th>
+                                                <th>Descripcion</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                    
+                                    {% for post in object_list %}
                                             <tr>
                                                 
-                                                    <td>{{ object.id_reservas }}</td>
-                                                    <td>{{ object.fecha_reserva }}</td>
-                                                    <td>{{ object.fecha_solicitud }}</td>
-                                                    <td>{{ object.usuario }}</td>
-                                                    <td>{{ object.cantidad_personas }}</td>
+                                                    <td>{{ post.idCancha }}</td>
+                                                    <td>{{ post.nombre  }}</td>
+                                                    <td>{{ post.ubicacion }}</td>
+                                                    <td>{{ post.descripcion }}</td>
                                                     
                                                
                                                     <td>
                                                     <!-- Usaremos un formulario que realizará la tarea de eliminar un registro o postre desde la misma tabla HTML -->                        
-                                                       
+                                                        <form method="POST" action="eliminar/{{ post.idCancha}}">
+                                                            {% csrf_token %}
+                                                            <div >
+                                                
+                                                                <!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
+                                                                <a href="detalle/{{ post.idCancha}}" title="Ver" type="button" class="btn btn-success">Ver </a>
+                                                                <a href="editar/{{ post.idCancha}}" title="Editar" type="button" class="btn btn-primary">Editar </a>
+                                                                <button class="btn btn-danger" onclick="return eliminar();" type="submit">
+                                                                    Eliminar
+                                                                </button>
+                                                            </div>
+                                                        </form>
                                                 </td>
                                             </tr>
-                                        
+                                        {% endfor %}
                                         </tr>
                                     </tbody>
                                 </table>
-                               
+                                <script type="text/javascript">
+                                 function eliminar() {
+                                    var x = confirm("Eliminar actividad ?");
+                                    if (x)
+                                     return true;
+                                    else
+                                        return false;
+                                 }
+                                </script>  
                             </div>
                         </div>
                     </div>
@@ -92,9 +112,9 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            
+                            <div class="text-muted">&copy; Your Website 2022</div>
                             <div>
-                               
+                          
                             </div>
                         </div>
                     </div>

@@ -16,7 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
+        <title>Quick GO Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -27,22 +27,21 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Tables</h1>
+                        <h1 class="mt-4">Tablas</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Tables</li>
+                            <li class="breadcrumb-item active">Tablas</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the
-                                <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
+                                Plataforma exclusiva para administradores
                                 .
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                DataTable Example
+                                Tabla De Datos
                             </div>
                             <div class="card-body">
                                 {% bootstrap_javascript jquery='full' %} 
@@ -52,39 +51,47 @@
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Ubicacion</th>
-                                                <th>Descripcion</th>
+                                                <th>Id</th>
+                                                <th>horario_apertura</th>
+                                                <th>horario_cierre</th>
+                                                <!--<th>dias</th>-->
+                                             <!---   <th>asignacion</th>-->
+                                                <th>horario</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                                 <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Ubicacion</th>
-                                                <th>Descripcion</th>
+                                                <th>horario_apertura</th>
+                                                <th>horario_cierre</th>
+                                                <th>dias</th>
+                                               <!--- <th>asignacion</th>-->
+                                                <th>horario</th>
+                                            
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                     {% for post in object_list %}
                                             <tr>
                                                 
-                                                    <td>{{ post.idCancha }}</td>
-                                                    <td>{{ post.nombre  }}</td>
-                                                    <td>{{ post.ubicacion }}</td>
-                                                    <td>{{ post.descripcion }}</td>
+                                                    <td>{{ post.idhorario }}</td>
+                                                    <td>{{ post.horario_apertura }}</td>
+                                                    <td>{{ post.horario_cierre }}</td>
+                                                    <!--<td>{{ post.dias }}</td>
+                                                   <!--<td>{{ post.asignacion}}</td>-->
+                                                     <td>{{ post.horario}}</td>
                                                     
                                                
                                                     <td>
                                                     <!-- Usaremos un formulario que realizará la tarea de eliminar un registro o postre desde la misma tabla HTML -->                        
-                                                        <form method="POST" action="eliminar/{{ post.idCancha}}">
+                                                        <form method="POST" action="eliminar/{{ post.idhorario}}">
                                                             {% csrf_token %}
                                                             <div >
                                                 
                                                                 <!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
-                                                                <a href="detalle/{{ post.idCancha}}" title="Ver" type="button" class="btn btn-success">Ver </a>
-                                                                <a href="editar/{{ post.idCancha}}" title="Editar" type="button" class="btn btn-primary">Editar </a>
+                                                                <a href="detalle/{{ post.idhorario}}" title="Ver" type="button" class="btn btn-success">Ver </a>
+                                                                <a href="editar/{{ post.idhorario}}" title="Editar" type="button" class="btn btn-primary">Editar </a>
                                                                 <button class="btn btn-danger" onclick="return eliminar();" type="submit">
                                                                     Eliminar
                                                                 </button>
@@ -112,11 +119,9 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                            <div class="text-muted">&copy; Your Website 2022</div>
                             <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                            
                             </div>
                         </div>
                     </div>

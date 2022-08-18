@@ -51,6 +51,7 @@ class AuthUser(models.Model):
     is_staff = models.IntegerField()
     is_active = models.IntegerField()
     date_joined = models.DateTimeField()
+    rol = models.CharField(max_length=30)
 
     class Meta:
         managed = False
@@ -195,7 +196,9 @@ class Reservas(models.Model):
     fecha_reserva = models.DateField(blank=True, null=True)
     fecha_solicitud = models.DateField(blank=True, null=True)
     cantidad_personas = models.CharField(max_length=45)
-    usuario = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reserva')
+    estado= models.CharField(max_length=45)
+    
 
 
     class Meta:
@@ -239,7 +242,7 @@ class TipoDocumento(models.Model):
 
 class TipoPersona(models.Model):
     idtipo_persona = models.AutoField(primary_key=True)
-    descripcion = models.TextField(blank=True, null=True)
+    descripcion = models.CharField(max_length=250)
 
     class Meta:
         managed = False

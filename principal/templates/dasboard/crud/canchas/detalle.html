@@ -16,7 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
+        <title>Quick Match Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -27,15 +27,14 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Tabla</h1>
+                        <h1 class="mt-4">Tablas</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                             <li class="breadcrumb-item active">Tablas</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                
-                                
+                               
                             </div>
                         </div>
                         <div class="card mb-4">
@@ -48,31 +47,28 @@
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                                <th>Id</th>
-                                                <th>fecha reserva</th>
-                                                <th>fecha solicitud</th>
-                                                <th>usuario</th>
-                                                <th>cantidad personas</th>
+                                            <th>Id</th>
+                                                <th>Nombre</th>
+                                                <th>Ubicacion</th>
+                                                <th>Descripcion</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                                 <th>Id</th>
-                                                <th>fecha reserva</th>
-                                                <th>fecha solicitud</th>
-                                                <th>usuario</th>
-                                                <th>cantidad personas</th>
+                                                <th>Nombre</th>
+                                                <th>Ubicacion</th>
+                                                <th>Descripcion</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                     
                                             <tr>
                                                 
-                                                    <td>{{ object.id_reservas }}</td>
-                                                    <td>{{ object.fecha_reserva }}</td>
-                                                    <td>{{ object.fecha_solicitud }}</td>
-                                                    <td>{{ object.usuario }}</td>
-                                                    <td>{{ object.cantidad_personas }}</td>
+                                                    <td>{{ object.idCancha }}</td>
+                                                    <td>{{ object.nombre  }}</td>
+                                                    <td>{{ object.ubicacion }}</td>
+                                                    <td>{{ object.descripcion }}</td>
                                                     
                                                
                                                     <td>
@@ -92,9 +88,11 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            
+                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
                             <div>
-                               
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
                             </div>
                         </div>
                     </div>

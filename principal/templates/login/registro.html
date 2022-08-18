@@ -45,7 +45,7 @@
                 <div class="card-heading"> </div>
                 <div class="card-body">
                     <h2 class="title">Registrate</h2>
-                    <form action="{% url 'register' %}" method="POST" >
+                    <form action="{% url 'principal:register' %}" method="POST" >
                         {% csrf_token %}
                         <div class="form-row">
 
@@ -79,7 +79,7 @@
                           <div class="button">
                             <button type="submit" class="btn btn-primary  btn btn--pill btn--green">Registrar<button>
                              
-                                <a class="input--style-3"  href="{% url 'login1' %}"> ¿ya tienes cuenta?  inicia sesión</a>
+                                <a class="input--style-3"  href="{% url 'principal:login1' %}"> ¿ya tienes cuenta?  inicia sesión</a>
                     </div>
                          
                         </div>

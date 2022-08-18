@@ -69,13 +69,7 @@ def  register(request):
 
 
    
-        #En este parte, si el formulario es valido guardamos lo que se obtiene de él y usamos authenticate para que el usuario incie sesión luego de haberse registrado y lo redirigimos al index
-       
-      
-
-
-
-
+        #En este parte, si el formulario es valido guardamos lo que se obtiene de él y usamos authenticate para que el usuario incie sesión luego de haberse registrado y lo redirigimos al ind
 
 
 #cotizacion
@@ -124,14 +118,14 @@ def agregar(request):
     return render(request, 'crud/agregar.html',{'formulario': formulario})
     
 
-def reserva(request):
+def Reservas1(request):
 
     #data = {
     #    'form': CanchaForm()
     #}
     current_user = get_object_or_404(User, pk=request.user.pk) #para lanzar una excepción de tipo Http404 si el registro no se encuentra.
     if request.method == 'POST': #si la peticion viene por un metodo de enviar
-            formulario = ReservasForm(data=request.POST, files=request.FILES)
+            formulario = Reservas1Form(data=request.POST, files=request.FILES)
             if formulario.is_valid():
                 cancha = formulario.save(commit=False) #devolverá un objeto que aún no se ha guardado en la base de datos 
                 cancha.user = current_user #para saber quien agrego la cancha
@@ -141,10 +135,9 @@ def reserva(request):
             return redirect ('principal')
     else: #se enviara nuevamente el formulario
             #data["form"] = formulario
-        formulario = ReservasForm()
-     
+        formulario = Reservas1Form()
       
-    return render(request, 'reserva/reserva.html',{'formulario': formulario})     
+    return render(request, 'reserva/reserva1.html',{'formulario': formulario})     
 
 def listar(request):
     cancha = Canchas.objects.all()
@@ -152,6 +145,13 @@ def listar(request):
         'cancha': cancha   #para enviar la consulta canchas lo envio  a través de un parametro contexto 
     }
     return render(request, 'crud/listar.html', context)
+
+def listar1(request):
+    cancha = Reservas.objects.all()
+    context ={             # diccionario de datos, representa toda la informacion que va hacer enviada al template
+        'cancha': cancha   #para enviar la consulta canchas lo envio  a través de un parametro contexto 
+    }
+    return render(request, 'crud/reservas.html', context)
 
 
 def modificar_cancha(request,pk):
@@ -248,16 +248,27 @@ def perfil_usuarios(request, username=None):
     if username and username !=current_user.username:
         user = User.objects.get(username=username)
         canchas = user.canchas.all()
+        reserva = user.reserva.all()
+        
 
     else:
         canchas = current_user.canchas.all()
+        reserva = current_user.reserva.all()
         user = current_user
-    return render(request, 'principal/perfil_usu.html', {'user':user, 'canchas':canchas})
+    return render(request, 'principal/perfil_usu.html', {'user':user, 'canchas':canchas, 'reserva':reserva})
+
+class ListadoReservascliente(ListView):
+    template_name = 'crud/reservas.html'
+    model = Reservas
+    paginate_by = 10
+    context_object_name = 'object_list'
+    fields =   ['fecha_reserva', 'fecha_solicitud',  'cantidad_personas',]
+
 
   #-----------------------------------cancha-----------------------------------------------------#
 
 class ListadoCanchas(ListView):
-    template_name = '/templates/dasboard/crud/index.html'
+    template_name = '/templates/dasboard/crud/canchas/index.html'
     model = Canchas
     paginate_by = 10
     context_object_name = 'object_list'
@@ -265,7 +276,8 @@ class ListadoCanchas(ListView):
 class CanchasCrear(SuccessMessageMixin, CreateView):
     model =Canchas
     form = Canchas
-    fields = "__all__"
+    fields =  ['user', 'nombre',  'image', 'telefono', 'descripcion', 'ubicacion','precio']
+
     success_message ='Cancha creada correctamente'
      
     def get_success_url(self):        
@@ -277,7 +289,8 @@ class CanchasDetalle (DetailView):
 class  CanchasActualizar(SuccessMessageMixin,UpdateView):
     model =  Canchas
     form = Canchas
-    fields = "__all__" # Le decimos a Django que muestre todos los campos de la tabla 'postres' de nuestra Base de Datos 
+    fields =  ['user','nombre',  'image', 'telefono', 'descripcion', 'ubicacion','precio']
+ # Le decimos a Django que muestre todos los campos de la tabla 'postres' de nuestra Base de Datos 
     success_message = 'Cancha Actualizada Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
 
     def get_success_url(self):               
@@ -285,11 +298,12 @@ class  CanchasActualizar(SuccessMessageMixin,UpdateView):
 class CanchasEliminar(SuccessMessageMixin, DeleteView): 
     model = Canchas
     form = Canchas
-    fields = "__all__"     
+    fields =  ['user','nombre',  'image', 'telefono', 'descripcion', 'ubicacion','precio']
+    
  
     # Redireccionamos a la página principal luego de eliminar un registro o postre
     def get_success_url(self): 
-        success_message = 'Municipio Eliminado Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+        success_message = 'Cancha Eliminado Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
         messages.success (self.request, (success_message))       
         return reverse('principal:leer' )# Redireccionamos a la vista principal 'leer'
     
@@ -297,19 +311,20 @@ class CanchasEliminar(SuccessMessageMixin, DeleteView):
      #-----------------------------------Reservas-----------------------------------------------------#
 
 class ListadoReservas(ListView):
-    template_name = '/templates/dasboard/crud/reservacrud/index.html'
+    template_name = '/templates/dasboard/reservacrud/index.html'
     model = Reservas
     paginate_by = 10
     context_object_name = 'object_list'
+    fields =   ['fecha_reserva', 'fecha_solicitud',  'cantidad_personas']
     
 class ReservasCrear(SuccessMessageMixin, CreateView):
     model =Reservas
     form = Reservas
-    fields = "__all__"
+    fields =   ['fecha_reserva', 'fecha_solicitud',  'cantidad_personas']
     success_message ='Cancha creada correctamente'
      
     def get_success_url(self):        
-        return reverse('principal:leer') # Redireccionamos a la vista principal 'leer'
+        return reverse('principal:leer1') # Redireccionamos a la vista principal 'leer'
 
 class ReservasDetalle (DetailView):
     model =Reservas
@@ -317,19 +332,108 @@ class ReservasDetalle (DetailView):
 class  ReservasActualizar(SuccessMessageMixin,UpdateView):
     model = Reservas
     form = Reservas
-    fields = "__all__" # Le decimos a Django que muestre todos los campos de la tabla 'postres' de nuestra Base de Datos 
+    fields =   ['fecha_reserva', 'fecha_solicitud',   'cantidad_personas','estado']# Le decimos a Django que muestre todos los campos de la tabla 'postres' de nuestra Base de Datos 
     success_message = 'Cancha Actualizada Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
 
     def get_success_url(self):               
-        return reverse('principal:leer') # Redireccionamos a la vista principal 'leer'
+        return reverse('principal:leer1') # Redireccionamos a la vista principal 'leer'
 class ReservasEliminar(SuccessMessageMixin, DeleteView): 
     model = Reservas
     form = Reservas
-    fields = "__all__"     
+    fields =   ['fecha_reserva', 'fecha_solicitud',  'cantidad_personas']
  
     # Redireccionamos a la página principal luego de eliminar un registro o postre
     def get_success_url(self): 
-        success_message = 'Municipio Eliminado Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+        success_message = 'Municipio Eliminada Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
         messages.success (self.request, (success_message))       
-        return reverse('principal:leer' )# Redireccionamos a la vista principal 'leer'
+        return reverse('principal:leer1' )# Redireccionamos a la vista principal 'leer'
     
+     #-----------------------------------Horarios-----------------------------------------------------#
+
+class ListadoHorario(ListView):
+    template_name = '/templates/dasboard/horarios/index.html'
+    model = Horario
+    paginate_by = 10
+    context_object_name = 'object_list'
+    
+class HorarioCrear(SuccessMessageMixin, CreateView):
+    model =Horario
+    form = Horario
+    fields =   ['horario_apertura', 'horario', 'dias', 'horario_cierre'] 
+    success_message ='Cancha creada correctamente'
+     
+    def get_success_url(self):        
+        return reverse('principal:leer2') # Redireccionamos a la vista principal 'leer'
+
+class HorarioDetalle (DetailView):
+    model =Horario
+
+class  HorarioActualizar(SuccessMessageMixin,UpdateView):
+    model = Horario
+    form = Horario
+    fields =   ['horario_apertura', 'horario', 'dias', 'horario_cierre'] # Le decimos a Django que muestre todos los campos de la tabla 'postres' de nuestra Base de Datos 
+    success_message = 'Cancha Actualizada Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+
+    def get_success_url(self):               
+        return reverse('principal:leer2') # Redireccionamos a la vista principal 'leer'
+class HorarioEliminar(SuccessMessageMixin, DeleteView): 
+    model = Horario
+    form = Horario
+    fields =   ['horario_apertura', 'horario', 'dias', 'horario_cierre']   
+ 
+    # Redireccionamos a la página principal luego de eliminar un registro o postre
+    def get_success_url(self): 
+        success_message = 'Cancha Eliminada Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+        messages.success (self.request, (success_message))       
+        return reverse('principal:leer2' )# Redireccionamos a la vista principal 'leer'
+
+     #-----------------------------------estadocancha-----------------------------------------------------#
+
+class ListadoEstado(ListView):
+    template_name = '/templates/dasboard/estadocancha/index.html'
+    model = Estado
+    paginate_by = 10
+    context_object_name = 'object_list'
+    
+class EstadoCrear(SuccessMessageMixin, CreateView):
+    model =Estado
+    form = Estado
+    fields =   ['disponible', 'fuera_de_servicio', 'reservada'] 
+    success_message ='Cancha creada correctamente'
+     
+    def get_success_url(self):        
+        return reverse('principal:leer3') # Redireccionamos a la vista principal 'leer'
+
+class EstadoDetalle (DetailView):
+    model =Estado
+
+class  EstadoActualizar(SuccessMessageMixin,UpdateView):
+    model = Estado
+    form = Estado
+    fields =  ['disponible', 'fuera_de_servicio', 'reservada']  # Le decimos a Django que muestre todos los campos de la tabla 'postres' de nuestra Base de Datos 
+    success_message = 'Cancha Actualizada Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+
+    def get_success_url(self):               
+        return reverse('principal:leer3') # Redireccionamos a la vista principal 'leer'
+class EstadoEliminar(SuccessMessageMixin, DeleteView): 
+    model = Estado
+    form = Estado
+    fields =   ['disponible', 'fuera_de_servicio', 'reservada']    
+ 
+    # Redireccionamos a la página principal luego de eliminar un registro o postre
+    def get_success_url(self): 
+        success_message = 'Cancha Eliminada Correctamente !' # Mostramos este Mensaje luego de Editar un Postre 
+        messages.success (self.request, (success_message))       
+        return reverse('principal:leer3' )# Redireccionamos a la vista principal 'leer'
+
+
+
+def reservas_usu (request):
+    reserva = Reservas.objects.all()
+    context = {
+        'reserva':reserva,
+    }
+    return render (request, 'principal/reservas_usu.html', context)
+
+
+       

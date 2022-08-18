@@ -40,12 +40,10 @@ urlpatterns = [
     path('principal/',include(('principal.urls','principal'))),
     path('', principal, name="principal"),
     path('dasboard/', dasboard, name="dasboard"),
+    #path('reservas_usu/', reservas_usu, name='reservas_usu' ),
     
     
 ]
-
-
-
 
 
 if settings.DEBUG:

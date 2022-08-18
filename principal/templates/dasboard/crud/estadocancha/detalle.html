@@ -34,9 +34,7 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the
-                                <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
-                                .
+                               
                             </div>
                         </div>
                         <div class="card mb-4">
@@ -49,28 +47,33 @@
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Ubicacion</th>
-                                                <th>Descripcion</th>
+                                                <th>Id</th>
+                                                <th>disponible</th>
+                                                <th>fuera_de_servicio</th>
+                                                <th>reservada</th>
+                                               
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                                 <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Ubicacion</th>
-                                                <th>Descripcion</th>
+                                                <th>disponible</th>
+                                                <th>fuera_de_servicio</th>
+                                                <th>reservada</th>
+                                                
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                     
                                             <tr>
                                                 
-                                                    <td>{{ object.idCancha }}</td>
-                                                    <td>{{ object.nombre  }}</td>
-                                                    <td>{{ object.ubicacion }}</td>
-                                                    <td>{{ object.descripcion }}</td>
+                                                    <td>{{ object.id_reservas}}</td>
+                                                    <td>{{ object.disponible}}</td>
+                                                    <td>{{ object.fuera_de_servicio }}</td>
+                                                    <td>{{ object.reservada }}</td>
+                                                   <!-- <td>{{ object.asignacion}}</td>-->
+                                                     
+                                                   
                                                     
                                                
                                                     <td>

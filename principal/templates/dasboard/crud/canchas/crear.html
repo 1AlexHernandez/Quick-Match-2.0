@@ -31,8 +31,8 @@
                         <header class="bg-dark1">
                           <div class="container px-1 px-lg-1 my-1">
                               <div class="text-center text-black">
-                                  <h1 class="display-6 fw-bolder">Crear actividad</h1>
-                                  <p class="lead fw-normal text-grey-50 mb-0">Creación de  actividades</p>
+                                  <h1 class="display-6 fw-bolder">Crear Cancha</h1>
+                                  <!--<p class="lead fw-normal text-grey-50 mb-0">Creación de  actividades</p>-->
                               </div>
                           </div>
                         </header>
@@ -41,7 +41,7 @@
                             {# Pasamos el 'csrf_token' de seguridad para poder crear un nuevo registro #}
                             {% csrf_token %}
                             
-                            <!-- {{ form.as_p }} -->
+                           <!-- {{ form.as_p }}-->
                             <div class="form-group">
                               <label for="user" class="txt_negrita">Usuario</label>
                               {{ form.user|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
@@ -73,7 +73,7 @@
                               {{ form.precio|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
                             </div>
                              <div class="form-group">
-                              <label for="estado" class="txt_negrita">Estado</label>
+                              <!--<label for="estado" class="txt_negrita">Estado</label>
                               {{ form.estado|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
                             </div>
                             
@@ -90,11 +90,8 @@
             <footer class="py-4 bg-light mt-auto">
               <div class="container-fluid px-4">
                   <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                      <div>
-                        <a href="#">Privacy Policy</a>
-                           &middot;
-                        <a href="#">Terms &amp; Conditions</a>
+                
+                     
                       </div>
                     </div>
               </div>

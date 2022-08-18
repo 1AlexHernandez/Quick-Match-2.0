@@ -31,8 +31,8 @@
                         <header class="bg-dark1">
                           <div class="container px-1 px-lg-1 my-1">
                               <div class="text-center text-black">
-                                  <h1 class="display-6 fw-bolder">Crear actividad</h1>
-                                  <p class="lead fw-normal text-grey-50 mb-0">Creación de  actividades</p>
+                                  <h1 class="display-6 fw-bolder">Actualizar Reserva</h1>
+                                  
                               </div>
                           </div>
                         </header>
@@ -43,40 +43,34 @@
                             
                             <!-- {{ form.as_p }} -->
                             <div class="form-group">
-                              <label for="user" class="txt_negrita">Usuario</label>
-                              {{ form.user|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                              <label for="fecha_reserva" class="txt_negrita">fecha_reserva</label>
+                              {{ form.fecha_reserva|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
                             </div>
                             <div class="form-group">
-                              <label for="ubicacion" class="txt_negrita">Ubicacion</label>
-                              {{ form.ubicacion|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                              <label for="fecha_solicitud" class="txt_negrita">fecha_solicitud</label>
+                              {{ form.fecha_solicitud|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
                             </div>
                             <div class="form-group">
-                              <label for="nombre" class="txt_negrita">Nombre</label>
-                              {{ form.nombre|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto --> 
-                            </div>
-                            <div class="form-group">
-                              <label for="telefono" class="txt_negrita">Telefono</label>
-                              {{ form.telefono|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
-                            </div>
-                            <div class="form-group">
-                              <label for="descripcion" class="txt_negrita">Descripcion</label>
-                              {{ form.descripcion|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                              <label for="user_id" class="txt_negrita">usuario</label>
+                              {{ form.user_id|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto --> 
                             </div>
 
-                             <div class="form-group">
-                              <label for="image" class="txt_negrita">Imagen</label>
-                              {{ form.image|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                            <div class="form-group">
+                              <label for="cantidad_personas" class="txt_negrita">cantidad_personas</label>
+                              {{ form.cantidad_personas|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
                             </div>
 
-                             <div class="form-group">
-                              <label for="precio" class="txt_negrita">Precio</label>
-                              {{ form.precio|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                            <div class="form-group">
+                              <label for="estado" class="txt_negrita">Estado reseva</label>
+                              
+                               <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+                              <select name="estado" {{ form.estado|add_class:"form-control" }}>
+                                <!-- Opciones de la lista -->
+                                <option value="Aceptar">Aceptar</option>
+                                <option value="Rechazar" selected>Rechazar</option> <!-- Opción por defecto -->
+                                
+                              </select>
                             </div>
-                             <div class="form-group">
-                              <label for="estado" class="txt_negrita">Estado</label>
-                              {{ form.estado|add_class:"form-control" }} <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
-                            </div>
-                            
                             
                             
                             <button type="submit" class="btn btn-primary">Aceptar</button> 

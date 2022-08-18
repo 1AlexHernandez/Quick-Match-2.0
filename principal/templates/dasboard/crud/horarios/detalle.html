@@ -16,7 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
+        <title>Quick Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -34,14 +34,14 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                
+                               
                                 
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Tabla De Datos
+                                Tabla  De Datos
                             </div>
                             <div class="card-body">
                                 
@@ -49,30 +49,35 @@
                                     <thead>
                                         <tr>
                                                 <th>Id</th>
-                                                <th>fecha reserva</th>
-                                                <th>fecha solicitud</th>
-                                                <th>usuario</th>
-                                                <th>cantidad personas</th>
+                                                <th>horario_apertura</th>
+                                                <th>horario_cierre</th>
+                                                <th>dias</th>
+                                                <th>asignacion</th>
+                                                <th>horario</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                                 <th>Id</th>
-                                                <th>fecha reserva</th>
-                                                <th>fecha solicitud</th>
-                                                <th>usuario</th>
-                                                <th>cantidad personas</th>
+                                                <th>horario_apertura</th>
+                                                <th>horario_cierre</th>
+                                                <th>dias</th>
+                                                <th>asignacion</th>
+                                                <th>horario</th>
+                                          
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                     
                                             <tr>
                                                 
-                                                    <td>{{ object.id_reservas }}</td>
-                                                    <td>{{ object.fecha_reserva }}</td>
-                                                    <td>{{ object.fecha_solicitud }}</td>
-                                                    <td>{{ object.usuario }}</td>
-                                                    <td>{{ object.cantidad_personas }}</td>
+                                                    <td>{{ object.idhorario }}</td>
+                                                    <td>{{ object.horario_apertura }}</td>
+                                                    <td>{{ object.horario_cierre }}</td>
+                                                    <td>{{ object.dias }}</td>
+                                                   <!-- <td>{{ object.asignacion}}</td>-->
+                                                    <!--<td>{{ object.horario}}</td>-->
+                                                   
                                                     
                                                
                                                     <td>
@@ -92,9 +97,11 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            
+                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
                             <div>
-                               
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
                             </div>
                         </div>
                     </div>

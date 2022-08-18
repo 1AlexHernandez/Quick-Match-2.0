@@ -1,7 +1,8 @@
-{% extends 'principal/canchas_vista.html' %}
+{% extends 'principal/reservas_usu.html' %}
 
 {% block content %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -37,6 +38,7 @@
                
               <!---->{{ user.perfil.descripcion }} <hr>
                    <h3><a href="{% url 'principal:editar_Perfil' %}" class="button">Editar Perfil</a></h3>
+                   <h3><a href="{% url 'principal:reserva' %}" class="button">Ver reservas</a></h3>
                   
                  
                   <!-- <div class="col-lg-4 col-md-4 m-t-20">
@@ -45,6 +47,7 @@
                    <div class="col-lg-4 col-md-4 m-t-20">
                        <h3 class="m-b-0 font-light">5454</h3><small>Following</small>
                    </div>-->
+
                   
                </div>
            
