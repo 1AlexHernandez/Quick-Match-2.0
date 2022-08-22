@@ -1,4 +1,4 @@
-{% extends 'principal/reservas_usu.html' %}
+{% extends 'principal/principal.html' %}
 
 {% block content %}
 {% load static %}
@@ -38,7 +38,8 @@
                
               <!---->{{ user.perfil.descripcion }} <hr>
                    <h3><a href="{% url 'principal:editar_Perfil' %}" class="button">Editar Perfil</a></h3>
-                   <h3><a href="{% url 'principal:reserva' %}" class="button">Ver reservas</a></h3>
+                 
+                    <h3><a href="{% url 'principal:misreservas' %}" class="button">Ver reservas</a></h3>
                   
                  
                   <!-- <div class="col-lg-4 col-md-4 m-t-20">

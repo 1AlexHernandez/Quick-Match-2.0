@@ -11,6 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href= "{% static 'cotizacion.css' %}">
+     <link rel="stylesheet" href="{% static 'perfil.css' %}">
     <title>Cotiza tu cancha</title>
 </head>
 <body>
@@ -20,6 +21,13 @@
             Cotiza tu cancha
         </div>
         <div class="form">
+         {% if messages %}
+        {% for message in messages %}
+         <div class="notification {{ message.tags}}">
+          {{ message }} 
+        </div>
+        {% endfor %}
+        {% endif %}
             <form action="/contact/" method="POST"> 
                 {% csrf_token %}
     
@@ -48,4 +56,5 @@
     </div>
 </body>
 </html>
+
 {% endblock %}

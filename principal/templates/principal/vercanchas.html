@@ -1,0 +1,29 @@
+{% extends 'principal/principal.html' %}
+
+{% block content %}
+
+{% for post in vercanchas %}	
+	<div class="containerl2">
+			
+	<div class="card">
+        <h2 class="post">{{  post.user.username  }}</h2>
+		<img src="{{post.image.url}}" width="100%">
+		<h2 class="post">{{ post.nombre }}</h2>
+		<p class="post">{{ post.descripcion }}</p>
+		<p class="post">{{ post.precio}}</p>
+		
+        
+
+        
+		
+	</div>
+
+
+</div>
+{% endfor %}
+
+
+
+
+
+{% endblock %}

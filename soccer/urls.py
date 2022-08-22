@@ -41,7 +41,9 @@ urlpatterns = [
     path('', principal, name="principal"),
     path('dasboard/', dasboard, name="dasboard"),
     #path('reservas_usu/', reservas_usu, name='reservas_usu' ),
-    
+    path('listar/', listar, name="listar"),
+    path('contact/', contact, name="contact"),
+    path('vercanchas/', vercanchas, name='vercanchas' ),
     
 ]
 

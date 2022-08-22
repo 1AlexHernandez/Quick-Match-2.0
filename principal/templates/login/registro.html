@@ -45,7 +45,7 @@
                 <div class="card-heading"> </div>
                 <div class="card-body">
                     <h2 class="title">Registrate</h2>
-                    <form action="{% url 'principal:register' %}" method="POST" >
+                    <form action="" method="POST" >
                         {% csrf_token %}
                         <div class="form-row">
 
@@ -75,6 +75,7 @@
                               <input class="input--style-3" type="password" placeholder="Confirmar Contraseña" name="Confirmar Contraseña">
                               {{form.password2|add_class:"form-control" }}
                             </div>
+                           
                           </div>
                           <div class="button">
                             <button type="submit" class="btn btn-primary  btn btn--pill btn--green">Registrar<button>

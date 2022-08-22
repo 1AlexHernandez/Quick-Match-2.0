@@ -67,7 +67,9 @@ urlpatterns = [
     path('charts/', chat),
     path('vistas_usuario/', vistas_usuario, name='vistas_usuario'),
     path('canchas_vista/' , canchas_vista, name='canchas_vista'),
-    path('reservas_usu/', reservas_usu, name='reservas_usu' ),
+   
+    path('misreservas/', misreservas, name='misreservas' ),
+    path('vercanchas/', vercanchas, name='vercanchas' ),
     #path('vercancha/',vercancha, name='vercancha'),
     
     
@@ -131,8 +133,6 @@ urlpatterns = [
     # La ruta 'eliminar' que usaremos para eliminar un Categoria o registro de la Base de Datos 
     path('Estado/eliminar/<int:pk>', EstadoEliminar.as_view(), name='dasboard/crud/estadocancha/eliminar.html'),  
 
-    
-    path('reserva/', ListadoReservascliente.as_view(template_name = "crud/reservas.html"), name='reserva'),
 
     
 

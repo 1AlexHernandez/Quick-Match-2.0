@@ -51,7 +51,7 @@ class AuthUser(models.Model):
     is_staff = models.IntegerField()
     is_active = models.IntegerField()
     date_joined = models.DateTimeField()
-    rol = models.CharField(max_length=30)
+   
 
     class Meta:
         managed = False
@@ -187,6 +187,23 @@ class Horario(models.Model):
         managed = False
         db_table = 'horario'
 
+class Personas(models.Model):
+    idpersonas = models.AutoField(db_column='idPersonas', primary_key=True)  # Field name made lowercase.
+    nombre = models.CharField(max_length=45)
+    apellido = models.CharField(max_length=45)
+    direccion = models.CharField(max_length=45)
+    telefono = models.BigIntegerField(blank=True, null=True)
+    correo_electronico = models.CharField(max_length=100, blank=True, null=True)
+    edad = models.IntegerField(blank=True, null=True)
+    tipo_documento_idtipo_documento = models.ForeignKey('TipoDocumento', models.DO_NOTHING, db_column='tipo_documento_idtipo_documento', blank=True, null=True)
+    tipo_persona_idtipo_persona = models.ForeignKey('TipoPersona', models.DO_NOTHING, db_column='tipo_persona_idtipo_persona', blank=True, null=True)
+    reservas_id_reservas = models.ForeignKey('Reservas', models.DO_NOTHING, db_column='reservas_id_reservas', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'personas'
+
+
 
 
 
@@ -197,7 +214,7 @@ class Reservas(models.Model):
     fecha_solicitud = models.DateField(blank=True, null=True)
     cantidad_personas = models.CharField(max_length=45)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reserva')
-    estado= models.CharField(max_length=45)
+    estado = models.CharField(max_length=45)
     
 
 

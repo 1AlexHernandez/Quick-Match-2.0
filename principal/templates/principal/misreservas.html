@@ -7,7 +7,7 @@
          {% if messages %}
         <ul class="messages list-group mb-3">
             {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+            <li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
       {% endif %}
@@ -22,74 +22,70 @@
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
-        {% include "dasboard/nav.html" %}
+       
             </div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Tablas</h1>
+                        <h1 class="mt-4">Tables</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                             <li class="breadcrumb-item active">Tablas</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                Esta plataforma es exclusiva para los administradores.
-                               
-                                
+                                Plataforma exclusiva para administradores
+                                .
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                               Tabla De Datos
+                                Tabla De Datos
                             </div>
                             <div class="card-body">
                                 {% bootstrap_javascript jquery='full' %} 
                                 <div align="left" class="btn_crear mb-3">
-                                    <a href="crear" type="button" class="btn btn-primary">Crear</a>
+                                    <a href="{% url 'principal:reservas1' %}" type="button" class="btn btn-primary">Crear una reserva</a>
                                 </div>
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Ubicacion</th>
-                                                <th>Descripcion</th>
+                                                <th>Id</th>
+                                                <th>fecha reserva</th>
+                                                <th>fecha solicitud</th>
+                                                <th>usuario</th>
+                                                <th>cantidad personas</th>
+                                                <th>Estado</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                                 <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Ubicacion</th>
-                                                <th>Descripcion</th>
+                                                <th>fecha reserva</th>
+                                                <th>fecha solicitud</th>
+                                                <th>usuario</th>
+                                                <th>cantidad personas</th>
+                                                <th>Estado</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                    {% for post in object_list %}
+                                    {% for order in reserva %}
                                             <tr>
                                                 
-                                                    <td>{{ post.idCancha }}</td>
-                                                    <td>{{ post.nombre  }}</td>
-                                                    <td>{{ post.ubicacion }}</td>
-                                                    <td>{{ post.descripcion }}</td>
+                                                     <td>{{ order.id_reservas }}</td>
+                                                    <td>{{ order.fecha_reserva }}</td>
+                                                    <td>{{ order.fecha_solicitud }}</td>
+                                                    <td>{{ order.user.username  }}</td>
+                                                    <td>{{ order.cantidad_personas }}</td>
+                                                     <td>{{ order.estado }}</td>
+                                                    
                                                     
                                                
                                                     <td>
+                                                    
                                                     <!-- Usaremos un formulario que realizará la tarea de eliminar un registro o postre desde la misma tabla HTML -->                        
-                                                        <form method="POST" action="eliminar/{{ post.idCancha}}">
-                                                            {% csrf_token %}
-                                                            <div >
-                                                
-                                                                <!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
-                                                                <a href="detalle/{{ post.idCancha}}" title="Ver" type="button" class="btn btn-success">Ver </a>
-                                                                <a href="editar/{{ post.idCancha}}" title="Editar" type="button" class="btn btn-primary">Editar </a>
-                                                                <button class="btn btn-danger" onclick="return eliminar();" type="submit">
-                                                                    Eliminar
-                                                                </button>
-                                                            </div>
-                                                        </form>
+                                                        
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -112,9 +108,9 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">&copy; Your Website 2022</div>
+                            <div class="text-muted"> &copy; Your Website 2022</div>
                             <div>
-                          
+                               
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 from cProfile import label
 from dataclasses import field
+from tkinter import Widget
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -15,8 +16,12 @@ class registroForm(UserCreationForm):
             "email",
             "password1",
             "password2",
+          
         
         ]
+
+      
+        
 
         
 
@@ -30,6 +35,7 @@ class Reservas1Form(forms.ModelForm):
      class  Meta:
         model =  Reservas
         fields = ['fecha_reserva', 'fecha_solicitud', 'cantidad_personas']
+       
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
